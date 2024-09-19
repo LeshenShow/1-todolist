@@ -1,0 +1,41 @@
+.gameTitle {
+    background-color: burlywood;
+}
+
+.cubeArea {
+    width: 300px;
+    display: flex;
+    flex-wrap: wrap;
+
+}
+
+.cubeElement {
+    background-color: lightgray;
+    height: 100px;
+    width: 100px;
+    color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.cubeElement-active {
+    height: 80px;
+    width: 80px;
+    border-radius: 50%;
+    background-color: black;
+}
+
+
+.resultTable {
+    background-color: rebeccapurple;
+}
+
+.chooseButton {
+    background-color: lightgrey;
+}
+
+.chooseButton-active {
+    background-color: black;
+    color: white;
+}

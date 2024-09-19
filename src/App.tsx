@@ -3,6 +3,7 @@ import "./App.css";
 import { data1, data2, Hw1 } from "./hw1/P.S-1/src/hw1";
 import { Todolist } from "./Todolist";
 import { TaskType } from "./Todolist";
+import { PetApp } from "./pet-cube/PetApp";
 
 export type FilterValueType = "all" | "active" | "completed";
 export type TasksType = {
@@ -38,13 +39,14 @@ export function App() {
   };
   return (
     <div className="App">
-      <Todolist
+      <PetApp />
+      {/* <Todolist
         title={`Learn`}
         tasks={filteredTasks}
         date={"10.09.2024"}
         removeTask={removeTask}
         changeFilter={changeFilter}
-      />
+      /> */}
       {/* <Hw1 data={data1} />
       <Hw1 data={data2} /> */}
     </div>
