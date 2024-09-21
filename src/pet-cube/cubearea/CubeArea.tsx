@@ -1,19 +1,16 @@
 import { useState } from "react";
 import { CubeElement } from "./CubeElement";
+import classNames from "classnames";
+import { GameInfo } from "../PetApp";
 
 type PositionProps = {
   id: number;
   position: number[];
 };
 type CubeAreaProps = {
-  choose: number;
+  gameInfo: GameInfo;
 };
 export function CubeArea(props: CubeAreaProps) {
-  const wish: number = Math.round(Math.random() * (6 - 1) + 1);
-  const choose = props.choose;
-  if (choose === wish) {
-    console.log(true);
-  }
   const [gameArea, setGameArea] = useState<Array<PositionProps>>([
     { id: 1, position: [3, 5, 6] },
     { id: 2, position: [4] },
@@ -27,14 +24,13 @@ export function CubeArea(props: CubeAreaProps) {
   ]);
 
   const cubeElements = gameArea.map((el, index) => {
-    return (
-      <CubeElement
-        key={index}
-        id={el.id}
-        active={el.position.includes(wish) && true}
-        position={el.position}
-      />
-    );
+    const className = {
+      active: el.position.includes(props.gameInfo.wish),
+      isWinner:
+        props.gameInfo.chosen === props.gameInfo.wish &&
+        props.gameInfo.chosen !== 0,
+    };
+    return <CubeElement key={index} id={el.id} className={className} />;
   });
   return <div className="cubeArea">{cubeElements}</div>;
 }

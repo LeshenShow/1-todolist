@@ -19,7 +19,11 @@
     align-items: center;
 }
 
-.cubeElement-active {
+.cubeElement-winner {
+    background-color: lightgreen;
+}
+
+.circleElement-active {
     height: 80px;
     width: 80px;
     border-radius: 50%;
@@ -31,11 +35,11 @@
     background-color: rebeccapurple;
 }
 
-.chooseButton {
+.chosenButton {
     background-color: lightgrey;
 }
 
-.chooseButton-active {
+.chosenButton-active {
     background-color: black;
     color: white;
 }

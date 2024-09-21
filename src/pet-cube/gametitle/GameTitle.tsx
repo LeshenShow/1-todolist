@@ -1,34 +1,50 @@
-import { ChooseButton } from "./ChooseButton";
+import { useState } from "react";
+import { Button } from "./Button";
+import classNames from "classnames";
+import { GameInfo } from "../PetApp";
 
 type GameTitleProps = {
-  onClickHandler: (choosen: number) => void;
-  choose: number;
+  setNewChosen: (newChosen: number) => void;
+  gameInfo: GameInfo;
 };
+
 export function GameTitle(props: GameTitleProps) {
-  const valueArray: number[] = [1, 2, 3, 4, 5, 6];
+  const setNewChosenHandler = (newChosen: number) => {
+    props.setNewChosen(newChosen);
+  };
+  const valueArray: number[] = [1, 2, 3, 4, 5, 6]; // hard code---------------------------------
   const buttons: JSX.Element[] = valueArray.map((el, i) => {
+    const className = classNames(
+      "chosenButton",
+      el === props.gameInfo.chosen && "chosenButton-active"
+    );
     return (
-      <ChooseButton
+      <Button
         key={i}
-        onClickHandler={props.onClickHandler}
+        onClick={() => setNewChosenHandler(el)}
         value={el}
-        active={el === props.choose ? "chooseButton-active" : ""}
+        className={className}
       />
     );
   });
   return (
     <div className="gameTitle">
       <div>
-        <span>Загадай число от 1 до 6</span>
+        <span>Загадай число от 1 до 6</span> {/* {hard code -------} */}
+        <div>{buttons}</div>
       </div>
-
-      <div>{buttons}</div>
-
       <div>
-        <button onClick={() => {}}>
-          <span>Старт</span>
-        </button>
+        <div>
+          <span>Попыток: </span>
+          <span>{props.gameInfo.try}</span>
+        </div>
+        <div>
+          <span>Угадано: </span>
+          <span>{props.gameInfo.guess}</span>
+        </div>
       </div>
+
+      {/* <button onClick={() => {setTest([1]);}}>TEST</button> */}
     </div>
   );
 }
