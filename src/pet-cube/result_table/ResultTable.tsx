@@ -1,30 +1,30 @@
+import { getResultTableScore } from "../MathLogic/getResultTableScore";
 import { GameInfo } from "../PetApp";
 
 type ResultTableProps = {
   gameInfo: GameInfo;
 };
 export function ResultTable(props: ResultTableProps) {
-  const tries = props.gameInfo.try;
   const result = props.gameInfo.result;
   const valueArray: number[] = [1, 2, 3, 4, 5, 6];
-  const tableResults = valueArray.map((el, index) => {
-    let sum = Math.round(
-      (result.filter((value) => value === el).length / tries) * 100
-    );
+  const mapValueArray = (el: number, index: number) => {
+    const percent = getResultTableScore(result, el);
     return (
       <tr key={index}>
         <td>{el}</td>
-        <td>{sum}%</td>
+        <td>{percent}%</td>
       </tr>
     );
-  });
+  };
+
+  const tableResults = valueArray.map(mapValueArray);
   return (
     <div className="resultTable">
       <table>
         <thead>
           <tr>
             <th>Значение</th>
-            <th>% Выпадений</th>
+            <th>Выпадений</th>
           </tr>
         </thead>
         <tbody>{tableResults}</tbody>

@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { CubeElement } from "./CubeElement";
-import classNames from "classnames";
 import { GameInfo } from "../PetApp";
 
 type PositionProps = {
@@ -22,8 +21,11 @@ export function CubeArea(props: CubeAreaProps) {
     { id: 8, position: [4] },
     { id: 9, position: [3, 5, 6] },
   ]);
-
-  const cubeElements = gameArea.map((el, index) => {
+  const mapGameArea = (
+    el: { id: number; position: number[] },
+    index: number
+  ) => {
+    console.log("map");
     const className = {
       active: el.position.includes(props.gameInfo.wish),
       isWinner:
@@ -31,6 +33,8 @@ export function CubeArea(props: CubeAreaProps) {
         props.gameInfo.chosen !== 0,
     };
     return <CubeElement key={index} id={el.id} className={className} />;
-  });
+  };
+  const cubeElements = gameArea.map(mapGameArea);
+
   return <div className="cubeArea">{cubeElements}</div>;
 }
