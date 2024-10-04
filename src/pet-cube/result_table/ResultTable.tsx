@@ -1,18 +1,20 @@
 import { getResultTableScore } from "../MathLogic/getResultTableScore";
+import { getMateExpect } from "../MathLogic/getMateExpect";
 import { GameInfo } from "../PetApp";
 
 type ResultTableProps = {
-  gameInfo: GameInfo;
+  result: number[];
 };
-export function ResultTable(props: ResultTableProps) {
-  const result = props.gameInfo.result;
+export function ResultTable({ result }: ResultTableProps) {
   const valueArray: number[] = [1, 2, 3, 4, 5, 6];
   const mapValueArray = (el: number, index: number) => {
     const percent = getResultTableScore(result, el);
+    const mateExpect = getMateExpect(percent);
     return (
       <tr key={index}>
         <td>{el}</td>
         <td>{percent}%</td>
+        <td>{mateExpect}</td>
       </tr>
     );
   };
@@ -25,6 +27,7 @@ export function ResultTable(props: ResultTableProps) {
           <tr>
             <th>Значение</th>
             <th>Выпадений</th>
+            <th>Мат. ожидание</th>
           </tr>
         </thead>
         <tbody>{tableResults}</tbody>

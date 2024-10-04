@@ -1,60 +1,77 @@
-import { useState } from "react";
 import "./App.css";
-import { data1, data2, Hw1 } from "./hw1/P.S-1/src/hw1";
-import { Todolist } from "./Todolist";
+import { Exam1 } from "./Exams/exam1";
 import { PetApp } from "./pet-cube/PetApp";
+import { Todolist } from "./Todolist";
+import { useState } from "react";
 import { v1 } from "uuid";
 
-export type FilterValueType = "all" | "active" | "completed";
 export type TaskType = {
   id: string;
   title: string;
   isDone: boolean;
 };
 
-export function App() {
+export type FilterValuesType = "all" | "active" | "completed";
+
+function App() {
   const [tasks, setTasks] = useState<TaskType[]>([
-    { id: "1", title: "HTML&CSS", isDone: true },
-    { id: "2", title: "JS", isDone: true },
-    { id: "3", title: "ReactJS", isDone: false },
-    { id: "4", title: "Redux", isDone: false },
-    { id: "5", title: "Typescript", isDone: false },
-    { id: "6", title: "RTK query", isDone: false },
+    { id: v1(), title: "HTML&CSS", isDone: true },
+    { id: v1(), title: "JS", isDone: true },
+    { id: v1(), title: "ReactJS", isDone: false },
   ]);
+
+  const [filter, setFilter] = useState<FilterValuesType>("all");
+
   const removeTask = (taskId: string) => {
-    const nextState: TaskType[] = tasks.filter((t) => t.id !== taskId);
-    setTasks(nextState);
-  };
-  const addTask = (title: string) => {
-    const newTask: TaskType = { title: title, isDone: false, id: v1() };
-    const copyState = [newTask, ...tasks];
-    setTasks(copyState);
+    const filteredTasks = tasks.filter((task) => {
+      return task.id !== taskId;
+    });
+    setTasks(filteredTasks);
   };
 
-  const [filter, setFilter] = useState<FilterValueType>("all");
-  let filteredTasks: Array<TaskType> = tasks;
-  if (filter === "active") {
-    filteredTasks = tasks.filter((t) => t.isDone === false);
-  }
-  if (filter === "completed") {
-    filteredTasks = tasks.filter((t) => t.isDone === true);
-  }
-  const changeFilter = (newFilter: FilterValueType) => {
-    setFilter(newFilter);
+  const addTask = (title: string) => {
+    const newTask = {
+      id: v1(),
+      title: title,
+      isDone: false,
+    };
+    const newTasks = [newTask, ...tasks];
+    setTasks(newTasks);
   };
+
+  const changeFilter = (filter: FilterValuesType) => {
+    setFilter(filter);
+  };
+  const setTaskNewStatus = (taskId: string, newStatus: boolean) => {
+    const nextState: TaskType[] = tasks.map((t) =>
+      t.id === taskId ? { ...t, isDone: newStatus } : t
+    );
+    setTasks(nextState);
+  };
+  let tasksForTodolist = tasks;
+  if (filter === "active") {
+    tasksForTodolist = tasks.filter((task) => !task.isDone);
+  }
+
+  if (filter === "completed") {
+    tasksForTodolist = tasks.filter((task) => task.isDone);
+  }
+
   return (
     <div className="App">
       <PetApp />
-      {/* <Todolist
-        title={`Learn`}
-        tasks={filteredTasks}
-        date={"10.09.2024"}
+      <Todolist
+        filter={filter}
+        title="What to learn"
+        tasks={tasksForTodolist}
         removeTask={removeTask}
         changeFilter={changeFilter}
         addTask={addTask}
-      /> */}
-      {/* <Hw1 data={data1} />
-      <Hw1 data={data2} /> */}
+        setTaskNewStatus={setTaskNewStatus}
+      />
+      <Exam1 />
     </div>
   );
 }
+
+export default App;

@@ -7,9 +7,10 @@ type PositionProps = {
   position: number[];
 };
 type CubeAreaProps = {
-  gameInfo: GameInfo;
+  wish: number;
+  choose: number;
 };
-export function CubeArea(props: CubeAreaProps) {
+export function CubeArea({ wish, choose }: CubeAreaProps) {
   const [gameArea, setGameArea] = useState<Array<PositionProps>>([
     { id: 1, position: [3, 5, 6] },
     { id: 2, position: [4] },
@@ -25,12 +26,9 @@ export function CubeArea(props: CubeAreaProps) {
     el: { id: number; position: number[] },
     index: number
   ) => {
-    console.log("map");
     const className = {
-      active: el.position.includes(props.gameInfo.wish),
-      isWinner:
-        props.gameInfo.chosen === props.gameInfo.wish &&
-        props.gameInfo.chosen !== 0,
+      active: el.position.includes(wish),
+      isWinner: choose === wish && choose !== 0,
     };
     return <CubeElement key={index} id={el.id} className={className} />;
   };

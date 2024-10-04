@@ -1,15 +1,13 @@
-import { FilterValueType } from "./App";
-
 type ButtonPropsType = {
   title: string;
-  onClickHandler?: () => void;
-  isDisabled?: boolean;
+  onClick?: () => void;
+  className?: string;
 };
 
-export function Button({ title, onClickHandler, isDisabled }: ButtonPropsType) {
+export const Button = ({ title, onClick, className }: ButtonPropsType) => {
   return (
-    <button onClick={onClickHandler} disabled={isDisabled}>
+    <button className={className} onClick={onClick}>
       {title}
     </button>
   );
-}
+};

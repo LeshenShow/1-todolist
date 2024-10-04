@@ -6,7 +6,6 @@
     width: 300px;
     display: flex;
     flex-wrap: wrap;
-
 }
 
 .cubeElement {
@@ -30,21 +29,23 @@
     background-color: black;
 }
 
-
-.resultTable {
+s .resultTable {
     background-color: rebeccapurple;
 }
 
-.chosenButton {
+.gameNumber {
     background-color: lightgrey;
 }
 
-.chosenButton-active {
+.chosenGameNumber {
     background-color: black;
     color: white;
 }
 
-.chosenBid {
+
+.gameBid {}
+
+.chosenGameBid {
     background-color: black;
     color: white;
 }

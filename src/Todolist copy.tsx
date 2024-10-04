@@ -1,5 +1,6 @@
 export {};
-// import React, { KeyboardEvent, useState } from "react";
+
+// import React, { KeyboardEvent } from "react";
 // import { FilterValueType, TaskType } from "./App";
 // import "./App.css";
 // import { Button } from "./Button";
@@ -11,38 +12,32 @@ export {};
 //   removeTask: (taskId: string) => void;
 //   changeFilter: (newFilter: FilterValueType) => void;
 //   addTask: (title: string) => void;
+//   setTaskStatus: (id: string, newStatus: boolean) => void;
 // };
 
 // export function Todolist(props: TodolistPropsType) {
+//   const inputRef = useRef<HTMLInputElement>(null);
 //   const onClickAddTaskHandler = () => {
-//     props.addTask(taskTitle);
-//     setTaskTitle("");
+//     if (inputRef.current) {
+//       if (inputRef.current.value.length > 15) {
+//       } else {
+//         props.addTask(inputRef.current.value);
+//         inputRef.current.value = "";
+//       }
+//     }
 //   };
-//   const [taskTitle, setTaskTitle] = useState<string>("");
 //   const onKeyDownAddTaskHandler = (e: KeyboardEvent<HTMLInputElement>) => {
 //     if (e.key === "Enter") {
 //       onClickAddTaskHandler();
 //     }
 //   };
-//   const isTitleLengthValid = taskTitle.length >= 15;
 //   return (
 //     <div className="todolist">
 //       <h3>{props.title}</h3>
 //       <div>
-//         <input
-//           placeholder="add task 15 length"
-//           value={taskTitle}
-//           onChange={(e) => {
-//             setTaskTitle(e.currentTarget.value);
-//           }}
-//           onKeyDown={onKeyDownAddTaskHandler}
-//         />
-//         <Button
-//           title={"+"}
-//           onClickHandler={onClickAddTaskHandler}
-//           isDisabled={isTitleLengthValid}
-//         />
-//         {!isTitleLengthValid && <div>max length 15 sim</div>}
+//         <input ref={inputRef} placeholder="add task 15 length" />
+//         <Button title={"+"} onClickHandler={onClickAddTaskHandler} />
+//         <div>max length 15 sim</div>
 //       </div>
 //       {props.tasks?.length === 0 ? (
 //         <p>Not Tasks</p>
@@ -53,8 +48,10 @@ export {};
 //               <li key={task.id}>
 //                 <input
 //                   type="checkbox"
-//                   checked={task.isDone}
-//                   onChange={() => {}}
+//                   // checked={task.isDone}
+//                   onChange={(e) => {
+//                     props.setTaskStatus(task.id, e.currentTarget.checked);
+//                   }}
 //                 />
 //                 <span>{task.title}</span>
 //                 <button onClick={() => props.removeTask(task.id)}>
