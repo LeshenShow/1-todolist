@@ -1,36 +1,8 @@
-.App {
-  padding: 30px;
-  display: flex;
-}
-
-.App>div {
-  margin-right: 50px;
-}
-
-.todolist {
-  background-color: burlywood;
-  padding: 15px;
-  border: 2px solid darkgray;
-  border-radius: 5px;
-}
-
-.task {
-  font-weight: bold;
-}
-
-.task-done {
-  text-decoration: line-through;
+/* .is-done {
   opacity: 0.5;
 }
 
-.btn-filter-active {
-  background-color: brown;
-  color: whitesmoke;
-  border: 2px solid purple;
-  border-radius: 3px;
-}
-
-.error {
-  border: 2px solid red;
-  outline: none
-}
+.todolist-title-container {
+  display: flex;
+  align-items: center;
+} */
