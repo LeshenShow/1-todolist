@@ -1,26 +1,31 @@
-import { AddItemForm } from "./AddItemForm";
-import "./App.css";
-
-import { Todolist } from "./Todolist";
-import { useState } from "react";
-import { v1 } from "uuid";
-import AppBar from "@mui/material/AppBar";
-import Toolbar from "@mui/material/Toolbar";
-import IconButton from "@mui/material/IconButton";
+import { ThemeProvider } from "@emotion/react";
 import MenuIcon from "@mui/icons-material/Menu";
 import {
   Box,
   Container,
   createTheme,
   CssBaseline,
-  Grid,
   Grid2,
   Paper,
   Switch,
 } from "@mui/material";
-import { MenuButton } from "./MenuButton";
-import { ThemeProvider } from "@emotion/react";
+import AppBar from "@mui/material/AppBar";
 import { deepPurple } from "@mui/material/colors";
+import IconButton from "@mui/material/IconButton";
+import Toolbar from "@mui/material/Toolbar";
+import { useReducer, useState } from "react";
+import { v1 } from "uuid";
+import { AddItemForm } from "./AddItemForm";
+import "./App.css";
+import { MenuButton } from "./MenuButton";
+import {
+  addTodolistAC,
+  changeTodolistFilterAC,
+  changeTodolistTitleAC,
+  removeTodolistAC,
+} from "./model/todolistAC";
+import { todolistReducer } from "./model/todolists-reducer";
+import { Todolist } from "./Todolist";
 export type TaskType = {
   id: string;
   title: string;
@@ -32,12 +37,12 @@ export type TodolistType = {
   title: string;
   filter: FilterValuesType;
 };
-export type TaskStateType = { [todolistId: string]: TaskType[] };
+export type TaskStateType = { [key: string]: TaskType[] };
 function App() {
   const todolistID1 = v1();
   const todolistID2 = v1();
 
-  const [todolists, setTodolists] = useState<TodolistType[]>([
+  const [todolists, dispatchTodolists] = useReducer(todolistReducer, [
     {
       id: todolistID1,
       title: "What to Learn",
@@ -49,7 +54,6 @@ function App() {
       filter: "all",
     },
   ]);
-
   const [tasks, setTasks] = useState<TaskStateType>({
     [todolistID1]: [
       { id: v1(), title: "HTML&CSS", isDone: true },
@@ -69,7 +73,6 @@ function App() {
       [todolistId]: tasks[todolistId].filter((t) => t.id !== taskId),
     });
   };
-
   const addTask = (title: string, todolistId: string) => {
     const newTask = {
       id: v1(),
@@ -78,7 +81,6 @@ function App() {
     };
     setTasks({ ...tasks, [todolistId]: [...tasks[todolistId], newTask] });
   };
-
   const changeTaskStatus = (
     taskId: string,
     taskStatus: boolean,
@@ -89,48 +91,25 @@ function App() {
     );
     setTasks({ ...tasks, [todolistId]: newTasks });
   };
-
   const changeTodolistFilter = (
-    newFilter: FilterValuesType,
-    todolistId: string
+    todolistId: string,
+    newFilter: FilterValuesType
   ) => {
-    setTodolists(
-      todolists.map((todolist) =>
-        todolist.id === todolistId
-          ? { ...todolist, filter: newFilter }
-          : todolist
-      )
-    );
+    dispatchTodolists(changeTodolistFilterAC(todolistId, newFilter));
   };
-
   const removeTodolist = (todolistId: string) => {
     const copyTasks = { ...tasks };
     delete copyTasks[todolistId];
     setTasks(copyTasks);
-    const newTodolistId = todolistId;
-    // delete tasks[newTodolistId];
-    // debugger;
-    const newState = todolists.filter(
-      (todolist) => todolist.id !== newTodolistId
-    );
-    setTodolists(newState);
+    dispatchTodolists(removeTodolistAC(todolistId));
   };
   const addTodolist = (title: string) => {
-    const todolistID = v1();
-    const newTodolist: TodolistType = {
-      id: todolistID,
-      title: title,
-      filter: "all",
-    };
-    setTodolists([...todolists, newTodolist]);
-    setTasks({ ...tasks, [todolistID]: [] });
+    const id = v1();
+    dispatchTodolists(addTodolistAC(title));
+    setTasks({ ...tasks, [id]: [] });
   };
   const changeTodolistTitle = (title: string, todolistId: string) => {
-    setTodolists(
-      todolists.map((todolist) =>
-        todolist.id === todolistId ? { ...todolist, title } : todolist
-      )
-    );
+    dispatchTodolists(changeTodolistTitleAC(title, todolistId));
   };
   const changeTaskTitle = (
     taskId: string,
@@ -152,7 +131,6 @@ function App() {
       },
     },
   });
-  console.log(theme);
   return (
     <div className="App">
       <ThemeProvider theme={theme}>

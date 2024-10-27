@@ -1,9 +1,7 @@
 import { FilterValuesType, TaskType } from "./App";
-import { ChangeEvent, KeyboardEvent, useState } from "react";
-// import { Button } from "./Button";
+import { ChangeEvent } from "react";
 import { AddItemForm } from "./AddItemForm";
 import { EditableSpan } from "./EditableSpan";
-import Button from "@mui/material/Button";
 import { Box, IconButton, Typography } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Checkbox from "@mui/material/Checkbox";
@@ -17,7 +15,7 @@ type PropsType = {
   tasks: TaskType[];
   filter: FilterValuesType;
   removeTask: (taskId: string, todolistId: string) => void;
-  changeTodolistFilter: (filter: FilterValuesType, todolistId: string) => void;
+  changeTodolistFilter: (todolistId: string, filter: FilterValuesType) => void;
   addTask: (title: string, todolistId: string) => void;
   setTaskNewStatus: (
     taskId: string,
@@ -61,7 +59,7 @@ export const Todolist = (props: PropsType) => {
   // };
 
   const changeTodolistFilterHandler = (filter: FilterValuesType) => {
-    changeTodolistFilter(filter, todolistId);
+    changeTodolistFilter(todolistId, filter);
   };
 
   const setTaskNewStatusHandler = (
