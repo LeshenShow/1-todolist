@@ -1,5 +1,6 @@
 import { v1 } from "uuid";
-import { FilterValuesType, TodolistType } from "../App";
+import { TodolistType } from "../../App";
+import { Actions } from "./index";
 // export const REMOVE_TODOLIST = "REMOVE_TODOLIST";
 // export const ADD_TODOLIST = "ADD_TODOLIST";
 const todolistID1 = v1();
@@ -16,38 +17,6 @@ const initialState: TodolistType[] = [
     filter: "all",
   },
 ];
-export type RemoveTodolistAction = {
-  type: "REMOVE_TODOLIST";
-  payload: {
-    id: string;
-  };
-};
-export type AddTodolistAction = {
-  type: "ADD_TODOLIST";
-  payload: {
-    title: string;
-    id: string;
-  };
-};
-export type ChangeTodolistTitleAction = {
-  type: "CHANGE_TODOLIST_TITLE";
-  payload: {
-    id: string;
-    title: string;
-  };
-};
-export type ChangeTodolistFilterAction = {
-  type: "CHANGE_TODOLIST_FILTER";
-  payload: {
-    id: string;
-    filter: FilterValuesType;
-  };
-};
-export type Actions =
-  | RemoveTodolistAction
-  | AddTodolistAction
-  | ChangeTodolistTitleAction
-  | ChangeTodolistFilterAction;
 
 export const todolistReducer = (
   state: TodolistType[] = initialState,
@@ -82,7 +51,7 @@ export const todolistReducer = (
       );
     }
     default:
-      throw new Error("Unknown action type");
-      return [...state];
+      // throw new Error("Unknown action type");
+      return state;
   }
 };
