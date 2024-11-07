@@ -1,7 +1,7 @@
-import { TaskStateType, TodolistType } from "../App";
-import { taskReducer } from "./tasks-reducer/tasks-reducer";
+import { TaskStateType, TodolistType } from "../Main";
+import { tasksReducer } from "./tasks-reducer/tasks-reducer";
 import { addTodolistAC } from "./todolists-reducer/todolistAC";
-import { todolistReducer } from "./todolists-reducer/todolists-reducer";
+import { todolistsReducer } from "./todolists-reducer/todolists-reducer";
 
 test("Add Task after Add Todolist", () => {
   const startTodolistsState: TodolistType[] = [];
@@ -9,8 +9,8 @@ test("Add Task after Add Todolist", () => {
 
   const action = addTodolistAC({ title: "without title" });
 
-  const endTasksState = taskReducer(startTasksState, action);
-  const endTodolistsState = todolistReducer(startTodolistsState, action);
+  const endTasksState = tasksReducer(startTasksState, action);
+  const endTodolistsState = todolistsReducer(startTodolistsState, action);
 
   const keys = Object.keys(endTasksState);
   const idFromTasks = keys[0];

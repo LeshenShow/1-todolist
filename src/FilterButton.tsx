@@ -1,5 +1,5 @@
 import { Button } from "@mui/material";
-import { FilterValuesType } from "./App";
+import { FilterValuesType } from "./Main";
 type FilterButtonProps = {
   title: string;
   filter: FilterValuesType;

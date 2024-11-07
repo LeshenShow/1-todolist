@@ -1,5 +1,5 @@
 export type { Actions } from "./tasks-actions-types";
-export { taskReducer } from "./tasks-reducer";
+export { tasksReducer } from "./tasks-reducer";
 export {
   addTaskAC,
   changeTaskTitleAC,

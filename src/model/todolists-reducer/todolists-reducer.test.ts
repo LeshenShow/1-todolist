@@ -1,7 +1,7 @@
 import { v1 } from "uuid";
-import { TodolistType } from "../../App";
+import { TodolistType } from "../../Main";
 import {
-  todolistReducer,
+  todolistsReducer,
   addTodolistAC,
   changeTodolistFilterAC,
   changeTodolistTitleAC,
@@ -37,7 +37,7 @@ beforeEach(() => {
 //   expect(endState[0].id).toBe(todolistId2);
 // });
 test("Remove Todolist", () => {
-  const endState: TodolistType[] = todolistReducer(
+  const endState: TodolistType[] = todolistsReducer(
     startState,
     removeTodolistAC({ id: todolistId1 })
   );
@@ -45,7 +45,7 @@ test("Remove Todolist", () => {
   expect(endState[0].id).toBe(todolistId2);
 });
 test("Add new Todolist", () => {
-  const endState: TodolistType[] = todolistReducer(
+  const endState: TodolistType[] = todolistsReducer(
     startState,
     addTodolistAC({ title: "New Todolist" })
   );
@@ -53,7 +53,7 @@ test("Add new Todolist", () => {
   expect(endState[2].title).toBe("New Todolist");
 });
 test("Change Todolist title", () => {
-  const endState: TodolistType[] = todolistReducer(
+  const endState: TodolistType[] = todolistsReducer(
     startState,
     changeTodolistTitleAC({ id: todolistId1, title: "New Todolist" })
   );
@@ -61,7 +61,7 @@ test("Change Todolist title", () => {
   expect(endState[1].title).toBe("What to buy");
 });
 test("Change Todolist filter", () => {
-  const endState: TodolistType[] = todolistReducer(
+  const endState: TodolistType[] = todolistsReducer(
     startState,
     changeTodolistFilterAC({ id: todolistId2, filter: "completed" })
   );

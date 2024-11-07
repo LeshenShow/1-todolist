@@ -1,22 +1,21 @@
 import { v1 } from "uuid";
-import { TaskStateType } from "../../App";
+import { TaskStateType } from "../../Main";
 import { Actions } from "./index";
-const todolistID1 = v1();
-const todolistID2 = v1();
+// const todolistID1 = v1();
+// const todolistID2 = v1();
 const initialState: TaskStateType = {
-  [todolistID1]: [
-    { id: v1(), title: "HTML&CSS", isDone: true },
-    { id: v1(), title: "JS", isDone: true },
-    { id: v1(), title: "ReactJS", isDone: false },
-  ],
-  [todolistID2]: [
-    { id: v1(), title: "Beer", isDone: true },
-    { id: v1(), title: "Cheeps", isDone: true },
-    { id: v1(), title: "Milk", isDone: false },
-  ],
+  // [todolistID1]: [
+  //   { id: v1(), title: "HTML&CSS", isDone: true },
+  //   { id: v1(), title: "JS", isDone: true },
+  //   { id: v1(), title: "ReactJS", isDone: false },
+  // ],
+  // [todolistID2]: [
+  //   { id: v1(), title: "Beer", isDone: true },
+  //   { id: v1(), title: "Cheeps", isDone: true },
+  //   { id: v1(), title: "Milk", isDone: false },
+  // ],
 };
-
-export const taskReducer = (
+export const tasksReducer = (
   state: TaskStateType = initialState,
   action: Actions
 ): TaskStateType => {

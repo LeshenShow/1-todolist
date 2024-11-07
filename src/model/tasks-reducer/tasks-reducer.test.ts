@@ -1,6 +1,6 @@
-import { TaskStateType } from "../../App";
+import { TaskStateType } from "../../Main";
 import { addTodolistAC, removeTodolistAC } from "../todolists-reducer";
-import { taskReducer, addTaskAC, removeTaskAC } from "./index";
+import { tasksReducer, addTaskAC, removeTaskAC } from "./index";
 import { changeTaskStatusAC, changeTaskTitleAC } from "./tasksAC";
 
 let todolistId1: string;
@@ -25,7 +25,7 @@ beforeEach(() => {
   };
 });
 test("Remove Task", () => {
-  const endState: TaskStateType = taskReducer(
+  const endState: TaskStateType = tasksReducer(
     startState,
     removeTaskAC({ todolistId: todolistId1, taskId: taskId1 })
   );
@@ -36,7 +36,7 @@ test("Remove Task", () => {
   ).toBeTruthy();
 });
 test("Add Task", () => {
-  const endState: TaskStateType = taskReducer(
+  const endState: TaskStateType = tasksReducer(
     startState,
     addTaskAC({ todolistId: todolistId1, title: "newTask" })
   );
@@ -45,7 +45,7 @@ test("Add Task", () => {
   expect(endState[todolistId1][3].title).toBe("newTask");
 });
 test("Change status Task", () => {
-  const endState: TaskStateType = taskReducer(
+  const endState: TaskStateType = tasksReducer(
     startState,
     changeTaskStatusAC({
       todolistId: todolistId1,
@@ -58,7 +58,7 @@ test("Change status Task", () => {
   expect(endState[todolistId2][0].isDone).toBe(true);
 });
 test("Change title Task", () => {
-  const endState: TaskStateType = taskReducer(
+  const endState: TaskStateType = tasksReducer(
     startState,
     changeTaskTitleAC({
       todolistId: todolistId1,
@@ -72,7 +72,7 @@ test("Change title Task", () => {
 });
 test("Add Task after Add Todolist", () => {
   const action = addTodolistAC({ title: "without title" });
-  const endState: TaskStateType = taskReducer(startState, action);
+  const endState: TaskStateType = tasksReducer(startState, action);
   const keys = Object.keys(endState);
   const newKey = keys.find((key) => key !== todolistId1 && key !== todolistId2);
   if (!newKey) {
@@ -83,7 +83,7 @@ test("Add Task after Add Todolist", () => {
 });
 test("Remove tasks after remove todolist", () => {
   const action = removeTodolistAC({ id: todolistId2 });
-  const endState: TaskStateType = taskReducer(startState, action);
+  const endState: TaskStateType = tasksReducer(startState, action);
   const keys = Object.keys(endState);
 
   expect(keys.length).toBe(1);

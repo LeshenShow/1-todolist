@@ -4,7 +4,7 @@ export {
   changeTodolistTitleAC,
   removeTodolistAC,
 } from "./todolistAC";
-export { todolistReducer } from "./todolists-reducer";
+export { todolistsReducer } from "./todolists-reducer";
 export type {
   Actions,
   AddTodolistAction,

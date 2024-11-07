@@ -1,24 +1,23 @@
-import { v1 } from "uuid";
-import { TodolistType } from "../../App";
+import { TodolistType } from "../../Main";
 import { Actions } from "./index";
 // export const REMOVE_TODOLIST = "REMOVE_TODOLIST";
 // export const ADD_TODOLIST = "ADD_TODOLIST";
-const todolistID1 = v1();
-const todolistID2 = v1();
+// const todolistID1 = v1();
+// const todolistID2 = v1();
 const initialState: TodolistType[] = [
-  {
-    id: todolistID1,
-    title: "What to Learn",
-    filter: "all",
-  },
-  {
-    id: todolistID2,
-    title: "What to buy",
-    filter: "all",
-  },
+  // {
+  //   id: todolistID1,
+  //   title: "What to Learn",
+  //   filter: "all",
+  // },
+  // {
+  //   id: todolistID2,
+  //   title: "What to buy",
+  //   filter: "all",
+  // },
 ];
 
-export const todolistReducer = (
+export const todolistsReducer = (
   state: TodolistType[] = initialState,
   action: Actions
 ): TodolistType[] => {
