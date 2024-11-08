@@ -1,6 +1,8 @@
 import { v1 } from "uuid";
-import { TaskStateType } from "../../Main";
+
+import type { TaskStateType } from "../../ui/Todolists/Todolist/Tasks/Task/Task";
 import { Actions } from "./index";
+
 // const todolistID1 = v1();
 // const todolistID2 = v1();
 const initialState: TaskStateType = {

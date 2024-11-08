@@ -1,0 +1,19 @@
+{
+  "editor.linkedEditing": true,
+  "typescript.preferences.preferTypeOnlyAutoImports": true,
+  "javascript.experimental.updateImportsOnPaste": true,
+  "typescript.experimental.updateImportsOnPaste": true,
+  "typescript.updateImportsOnFileMove.enabled": "always",
+  "typescript.preferences.organizeImports": {},
+  "editor.codeActionsOnSave": {
+    "source.organizeImports": "explicit"
+  },
+  "editor.codeActions.triggerOnFocusChange": true,
+  "javascript.updateImportsOnFileMove.enabled": "always",
+  "files.trimTrailingWhitespace": true,
+  "CodeGPT.apiKey": "CodeGPT Plus Beta",
+  "peacock.color": "",
+  "vscode-pets.theme": "forest",
+  "workbench.iconTheme": "material-icon-theme",
+  "workbench.colorTheme": "Default Dark Modern"
+}

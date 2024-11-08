@@ -1,5 +1,7 @@
 import { Button } from "@mui/material";
-import { FilterValuesType } from "./Main";
+import type { FilterValuesType } from "../../../features/todolists/ui/Todolists/Todolist/Todolist";
+ 
+
 type FilterButtonProps = {
   title: string;
   filter: FilterValuesType;

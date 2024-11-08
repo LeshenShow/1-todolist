@@ -1,4 +1,4 @@
-import { TodolistType } from "../../Main";
+import type { TodolistType } from "../../ui/Todolists/Todolist/Todolist";
 import { Actions } from "./index";
 // export const REMOVE_TODOLIST = "REMOVE_TODOLIST";
 // export const ADD_TODOLIST = "ADD_TODOLIST";

@@ -1,15 +1,14 @@
-import { ListItem, Box, Checkbox, IconButton } from "@mui/material";
-import { EditableSpan } from "./EditableSpan";
-import { getListItemSx } from "./Todolist.styles";
-import { TaskType } from "./Main";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { Box, Checkbox, IconButton, ListItem } from "@mui/material";
 import { ChangeEvent } from "react";
-import { useAppDispatch } from "./app/hooks";
+import { EditableSpan } from "../../../../../../../common/components/EditableSpan/EditableSpan";
+import { useAppDispatch } from "../../../../../../../common/hooks/useAddDispatch";
 import {
   changeTaskStatusAC,
   changeTaskTitleAC,
   removeTaskAC,
-} from "./model/tasks-reducer";
+} from "../../../../../model/tasks-reducer";
+import { getListItemSx } from "./Task.style";
 
 type TaskProps = { task: TaskType; todolistId: string };
 export function Task(props: TaskProps) {
@@ -22,14 +21,11 @@ export function Task(props: TaskProps) {
   const changeTaskTitle = (title: string) => {
     dispatch(changeTaskTitleAC({ todolistId, taskId: task.id, title }));
   };
-  const changeTaskStatus = (
-    taskId: string,
-    e: ChangeEvent<HTMLInputElement>
-  ) => {
+  const changeTaskStatus = (e: ChangeEvent<HTMLInputElement>) => {
     dispatch(
       changeTaskStatusAC({
         todolistId,
-        taskId,
+        taskId: task.id,
         isDone: e.currentTarget.checked,
       })
     );
@@ -37,12 +33,7 @@ export function Task(props: TaskProps) {
   return (
     <ListItem disablePadding sx={getListItemSx(task.isDone)}>
       <Box>
-        <Checkbox
-          checked={task.isDone}
-          onChange={(e) => {
-            changeTaskStatus(task.id, e);
-          }}
-        />
+        <Checkbox checked={task.isDone} onChange={changeTaskStatus} />
 
         <EditableSpan changeTitle={changeTaskTitle} title={task.title} />
       </Box>
@@ -53,3 +44,9 @@ export function Task(props: TaskProps) {
   );
 }
 //const {} = props;
+export type TaskType = {
+  id: string;
+  title: string;
+  isDone: boolean;
+};
+export type TaskStateType = { [key: string]: TaskType[] };

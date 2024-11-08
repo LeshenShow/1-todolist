@@ -1,12 +1,13 @@
 import { List } from "@mui/material";
-import { useAppSelector } from "./app/hooks";
-import { TodolistType } from "./Main";
-import { Task } from "./Task";
+import { useAppSelector } from "../../../../../../common/hooks/useAppSelector";
+import { TodolistType } from "../Todolist";
+import { Task } from "./Task/Task";
+import { selectTasks } from "../../../../../../app/appSelectors";
 
 type TasksProps = { todolist: TodolistType };
 export function Tasks(props: TasksProps) {
   const { todolist } = props;
-  const tasks = useAppSelector((state) => state.tasks);
+  const tasks = useAppSelector(selectTasks);
 
   const allTodolistTasks = tasks[todolist.id];
   let filteredTasks = allTodolistTasks;

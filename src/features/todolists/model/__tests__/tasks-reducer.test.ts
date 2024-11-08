@@ -1,7 +1,7 @@
-import { TaskStateType } from "../../Main";
+import type { TaskStateType } from "../../ui/Todolists/Todolist/Tasks/Task/Task";
+import { tasksReducer, removeTaskAC, addTaskAC, changeTaskStatusAC, changeTaskTitleAC } from "../tasks-reducer";
 import { addTodolistAC, removeTodolistAC } from "../todolists-reducer";
-import { tasksReducer, addTaskAC, removeTaskAC } from "./index";
-import { changeTaskStatusAC, changeTaskTitleAC } from "./tasksAC";
+ 
 
 let todolistId1: string;
 let todolistId2: string;

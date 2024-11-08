@@ -1,11 +1,14 @@
-import { AppBar, Toolbar, IconButton, Box, Switch } from "@mui/material";
-import { MenuButton } from "./MenuButton";
 import MenuIcon from "@mui/icons-material/Menu";
-import { changeThemeModeAC } from "./app/app-reducer";
-import { useAppDispatch, useAppSelector } from "./app/hooks";
+import { AppBar, Box, IconButton, Switch, Toolbar } from "@mui/material";
+
+import { changeThemeModeAC } from "../../../app/app-reducer";
+import { selectThemeMode } from "../../../app/appSelectors";
+import { useAppDispatch } from "../../hooks/useAddDispatch";
+import { useAppSelector } from "../../hooks/useAppSelector";
+import { MenuButton } from "../MenuButton/MenuButton";
 
 export function Header() {
-  const themeMode = useAppSelector((state) => state.app.themeMode);
+  const themeMode = useAppSelector(selectThemeMode);
   const dispatch = useAppDispatch();
   const changeThemeMode = () => {
     dispatch(changeThemeModeAC(themeMode === "dark" ? "light" : "dark"));
@@ -16,6 +19,7 @@ export function Header() {
         <IconButton color="inherit">
           <MenuIcon />
         </IconButton>
+
         <Box>
           <MenuButton color="inherit" variant="outlined">
             Login

@@ -1,12 +1,12 @@
+import DeleteIcon from "@mui/icons-material/Delete";
 import { IconButton, Typography } from "@mui/material";
-import { useAppDispatch } from "./app/hooks";
+import { EditableSpan } from "../../../../../../common/components/EditableSpan/EditableSpan";
+import { useAppDispatch } from "../../../../../../common/hooks/useAddDispatch";
 import {
   changeTodolistTitleAC,
   removeTodolistAC,
-} from "./model/todolists-reducer";
-import { EditableSpan } from "./EditableSpan";
-import DeleteIcon from "@mui/icons-material/Delete";
-import { TodolistType } from "./Main";
+} from "../../../../model/todolists-reducer";
+import { TodolistType } from "../Todolist";
 
 export function TodolistTitle(props: TodolistTitleProps) {
   const { todolist } = props;

@@ -1,5 +1,5 @@
 import { v1 } from "uuid";
-import { FilterValuesType } from "../../Main";
+import type { FilterValuesType } from "../../ui/Todolists/Todolist/Todolist";
 
 export const removeTodolistAC = (payload: { id: string }) => {
   return {

@@ -1,7 +1,8 @@
-import { TaskStateType, TodolistType } from "../Main";
-import { tasksReducer } from "./tasks-reducer/tasks-reducer";
-import { addTodolistAC } from "./todolists-reducer/todolistAC";
-import { todolistsReducer } from "./todolists-reducer/todolists-reducer";
+import type { TaskStateType } from "../../ui/Todolists/Todolist/Tasks/Task/Task";
+import type { TodolistType } from "../../ui/Todolists/Todolist/Todolist";
+import { tasksReducer } from "../tasks-reducer";
+import { addTodolistAC, todolistsReducer } from "../todolists-reducer";
+
 
 test("Add Task after Add Todolist", () => {
   const startTodolistsState: TodolistType[] = [];

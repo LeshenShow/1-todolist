@@ -1,9 +1,7 @@
 import { ChangeEvent, KeyboardEvent, useState } from "react";
 import AddIcon from "@mui/icons-material/Add";
 import { IconButton, TextField } from "@mui/material";
-type AddItemFormProps = {
-  addItem: (title: string) => void;
-};
+
 export function AddItemForm(props: AddItemFormProps) {
   const { addItem } = props;
   const [itemTitle, setItemTitle] = useState("");
@@ -44,3 +42,6 @@ export function AddItemForm(props: AddItemFormProps) {
     </div>
   );
 }
+type AddItemFormProps = {
+  addItem: (title: string) => void;
+};
