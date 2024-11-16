@@ -35,7 +35,7 @@ export function Task(props: TaskProps) {
       <Box>
         <Checkbox checked={task.isDone} onChange={changeTaskStatus} />
 
-        <EditableSpan changeTitle={changeTaskTitle} title={task.title} />
+        <EditableSpan onChange={changeTaskTitle} value={task.title} />
       </Box>
       <IconButton aria-label="delete" onClick={removeTask}>
         <DeleteIcon />

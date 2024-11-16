@@ -20,10 +20,7 @@ export function TodolistTitle(props: TodolistTitleProps) {
   return (
     <div>
       <Typography align="center" variant="h6">
-        <EditableSpan
-          title={todolist.title}
-          changeTitle={changeTodolistTitle}
-        />
+        <EditableSpan value={todolist.title} onChange={changeTodolistTitle} />
         <IconButton aria-label="delete" onClick={removeTodolist}>
           <DeleteIcon />
         </IconButton>

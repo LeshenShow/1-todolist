@@ -15,5 +15,13 @@
   "peacock.color": "",
   "vscode-pets.theme": "forest",
   "workbench.iconTheme": "material-icon-theme",
-  "workbench.colorTheme": "Default Dark Modern"
+  "workbench.colorTheme": "Default Dark Modern",
+  "files.autoSave": "off",
+  "genGetSet.scanOnSave": true,
+  "editor.formatOnSaveMode": "modificationsIfAvailable",
+  "editor.formatOnSave": true,
+  "prettier.printWidth": 90,
+  "prettier.experimentalTernaries": true,
+  "prettier.bracketSameLine": true,
+  "prettier.arrowParens": "avoid"
 }

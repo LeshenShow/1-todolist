@@ -1,18 +1,18 @@
-import { ChangeEvent, useState } from "react";
 import Input from "@mui/material/Input";
+import { ChangeEvent, useState } from "react";
 type EditableSpanProps = {
-  title: string;
-  changeTitle: (newTitle: string) => void;
+  value: string;
+  onChange: (newTitle: string) => void;
 };
 export function EditableSpan(props: EditableSpanProps) {
   const [editMode, setEditMode] = useState(false);
-  const [itemTitle, setItemTitle] = useState(props.title);
+  const [itemTitle, setItemTitle] = useState(props.value);
 
   const onEditMode = () => {
     setEditMode(true);
   };
   const offEditMode = () => {
-    props.changeTitle(itemTitle);
+    props.onChange(itemTitle);
     setEditMode(false);
   };
 
@@ -27,6 +27,6 @@ export function EditableSpan(props: EditableSpanProps) {
       onChange={changeItemTitleHandler}
     />
   ) : (
-    <span onDoubleClick={onEditMode}>{props.title}</span>
+    <span onDoubleClick={onEditMode}>{props.value}</span>
   );
 }

@@ -1,8 +1,9 @@
 import { List } from "@mui/material";
+import { selectTasks } from "../../../../../../app/appSelectors";
 import { useAppSelector } from "../../../../../../common/hooks/useAppSelector";
 import { TodolistType } from "../Todolist";
 import { Task } from "./Task/Task";
-import { selectTasks } from "../../../../../../app/appSelectors";
+
 
 type TasksProps = { todolist: TodolistType };
 export function Tasks(props: TasksProps) {
