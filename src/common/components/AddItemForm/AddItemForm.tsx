@@ -1,9 +1,9 @@
-import { ChangeEvent, KeyboardEvent, useState } from "react";
 import AddIcon from "@mui/icons-material/Add";
 import { IconButton, TextField } from "@mui/material";
+import { ChangeEvent, KeyboardEvent, useState } from "react";
 
-export function AddItemForm(props: AddItemFormProps) {
-  const { addItem } = props;
+export function AddItemForm(props: Props) {
+  const { addItem, disabled } = props;
   const [itemTitle, setItemTitle] = useState("");
   const [error, setError] = useState(false);
   const changeItemTitleHandler = (event: ChangeEvent<HTMLInputElement>) => {
@@ -31,17 +31,17 @@ export function AddItemForm(props: AddItemFormProps) {
         error={!!error}
         helperText={error}
         size="small"
-
+        disabled={disabled}
         // className={error ? "error" : ""}
       />
-
-      <IconButton aria-label="add" onClick={addItemHandler}>
+      <IconButton aria-label="add" onClick={addItemHandler} disabled={disabled}>
         <AddIcon />
       </IconButton>
       {error && <div style={{ color: "red" }}>Enter value</div>}
     </div>
   );
 }
-type AddItemFormProps = {
+type Props = {
   addItem: (title: string) => void;
+  disabled?: boolean;
 };

@@ -1,15 +1,12 @@
 import Input from "@mui/material/Input";
 import { ChangeEvent, useState } from "react";
-type EditableSpanProps = {
-  value: string;
-  onChange: (newTitle: string) => void;
-};
-export function EditableSpan(props: EditableSpanProps) {
+
+export function EditableSpan(props: Props) {
   const [editMode, setEditMode] = useState(false);
   const [itemTitle, setItemTitle] = useState(props.value);
 
   const onEditMode = () => {
-    setEditMode(true);
+    props.disabled || setEditMode(true);
   };
   const offEditMode = () => {
     props.onChange(itemTitle);
@@ -25,8 +22,14 @@ export function EditableSpan(props: EditableSpanProps) {
       value={itemTitle}
       onBlur={offEditMode}
       onChange={changeItemTitleHandler}
+      disabled={props.disabled}
     />
   ) : (
     <span onDoubleClick={onEditMode}>{props.value}</span>
   );
 }
+type Props = {
+  value: string;
+  onChange: (newTitle: string) => void;
+  disabled?: boolean;
+};

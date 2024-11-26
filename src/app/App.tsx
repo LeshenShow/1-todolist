@@ -1,4 +1,5 @@
 import { CssBaseline, ThemeProvider } from "@mui/material";
+import { ErrorSnackbar } from "common/components";
 import { Header } from "../common/components/Header/Header";
 import { useAppSelector } from "../common/hooks/useAppSelector";
 import { getTheme } from "../common/theme/theme";
@@ -15,6 +16,7 @@ export function App() {
         <CssBaseline />
         <Header />
         <Main />
+        <ErrorSnackbar />
       </ThemeProvider>
     </div>
   );

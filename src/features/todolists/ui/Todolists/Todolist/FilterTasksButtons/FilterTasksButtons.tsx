@@ -1,16 +1,16 @@
 import { Box } from "@mui/material";
-import { FilterButton } from "../../../../../../common/components/FilterButton/FilterButton";
-import { useAppDispatch } from "../../../../../../common/hooks/useAddDispatch";
-import { changeTodolistFilterAC } from "../../../../model/todolists-reducer";
-import { FilterValuesType, TodolistType } from "../Todolist";
+import { FilterButton } from "common/components";
+import { useAppDispatch } from "common/hooks";
+import type { FilterValuesType } from "common/types";
+import type { DomainTodolist } from "features/todolists/api/todolistsApi.types";
+import { updateTodolistFilterAC } from "features/todolists/model/todolists-reducer";
 import { filterButtonsContainerSx } from "./FilterTasksButtons.style";
 
-type FilterTasksButtonsProps = { todolist: TodolistType };
-export function FilterTasksButtons(props: FilterTasksButtonsProps) {
+export function FilterTasksButtons(props: Props) {
   const { todolist } = props;
   const dispatch = useAppDispatch();
   const changeTodolistFilter = (filter: FilterValuesType) => {
-    dispatch(changeTodolistFilterAC({ id: todolist.id, filter }));
+    dispatch(updateTodolistFilterAC({ id: todolist.id, filter }));
   };
   return (
     <Box sx={filterButtonsContainerSx}>
@@ -35,3 +35,4 @@ export function FilterTasksButtons(props: FilterTasksButtonsProps) {
     </Box>
   );
 }
+type Props = { todolist: DomainTodolist };

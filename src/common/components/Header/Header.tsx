@@ -1,18 +1,20 @@
 import MenuIcon from "@mui/icons-material/Menu";
-import { AppBar, Box, IconButton, Switch, Toolbar } from "@mui/material";
-
+import { AppBar, Box, IconButton, LinearProgress, Switch, Toolbar } from "@mui/material";
+// import LinearProgress from "@mui/material/LinearProgress"; так лучше, чтобы не тянуть весь пакет
 import { changeThemeModeAC } from "../../../app/app-reducer";
-import { selectThemeMode } from "../../../app/appSelectors";
+import { selectAppStatus, selectThemeMode } from "../../../app/appSelectors";
 import { useAppDispatch } from "../../hooks/useAddDispatch";
 import { useAppSelector } from "../../hooks/useAppSelector";
 import { MenuButton } from "../MenuButton/MenuButton";
 
 export function Header() {
   const themeMode = useAppSelector(selectThemeMode);
+  const status = useAppSelector(selectAppStatus);
   const dispatch = useAppDispatch();
   const changeThemeMode = () => {
     dispatch(changeThemeModeAC(themeMode === "dark" ? "light" : "dark"));
   };
+
   return (
     <AppBar position="static">
       <Toolbar sx={{ justifyContent: "space-between" }}>
@@ -33,6 +35,7 @@ export function Header() {
           <Switch onChange={changeThemeMode} />
         </Box>
       </Toolbar>
+      {status === "loading" && <LinearProgress color="secondary" />}
     </AppBar>
   );
 }

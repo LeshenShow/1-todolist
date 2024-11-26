@@ -1,11 +1,5 @@
-import type { TaskStateType } from "../../ui/Todolists/Todolist/Tasks/Task/Task";
-import type { TodolistType } from "../../ui/Todolists/Todolist/Todolist";
-import { tasksReducer } from "../tasks-reducer";
-import { addTodolistAC, todolistsReducer } from "../todolists-reducer";
-
-
 test("Add Task after Add Todolist", () => {
-  const startTodolistsState: TodolistType[] = [];
+  const startTodolistsState: DomainTodolist[] = [];
   const startTasksState: TaskStateType = {};
 
   const action = addTodolistAC({ title: "without title" });
@@ -18,4 +12,23 @@ test("Add Task after Add Todolist", () => {
   const idFromTodolists = endTodolistsState[0].id;
   expect(idFromTodolists).toBe(action.payload.id);
   expect(idFromTasks).toBe(action.payload.id);
+});
+
+test("Add Task after Add Todolist", () => {
+  const newTodolist: DomainTodolist = {
+    id: "todolist3",
+    addedDate: "bla",
+    order: 0,
+    title: "newTodolist",
+    filter: "all",
+  };
+  const action = addTodolistAC({ todolist: newTodolist });
+  const endState: TasksState = tasksReducer(startState, action);
+  const keys = Object.keys(endState);
+  const newKey = keys.find(key => key !== todolistId1 && key !== todolistId2);
+  if (!newKey) {
+    throw Error("error");
+  }
+  expect(keys.length).toBe(3);
+  expect(endState[newKey]).toEqual([]);
 });

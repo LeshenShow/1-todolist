@@ -1,52 +1,46 @@
 import DeleteIcon from "@mui/icons-material/Delete";
 import { Box, Checkbox, IconButton, ListItem } from "@mui/material";
-import { ChangeEvent } from "react";
-import { EditableSpan } from "../../../../../../../common/components/EditableSpan/EditableSpan";
-import { useAppDispatch } from "../../../../../../../common/hooks/useAddDispatch";
+import { EditableSpan } from "common/components/EditableSpan";
+import { useAppDispatch } from "common/hooks/useAddDispatch";
+import type { DomainTask } from "features/todolists/api/tasksApi.types";
+import { TaskStatus } from "features/todolists/lib/enums";
 import {
-  changeTaskStatusAC,
-  changeTaskTitleAC,
-  removeTaskAC,
-} from "../../../../../model/tasks-reducer";
+  removeTaskTC,
+  updateTaskTC,
+} from "features/todolists/model/tasks-reducer/tasks-reducer";
+import { ChangeEvent } from "react";
 import { getListItemSx } from "./Task.style";
 
-type TaskProps = { task: TaskType; todolistId: string };
-export function Task(props: TaskProps) {
-  const { task, todolistId } = props;
+export function Task(props: Props) {
+  const { task, todolistId, disabled } = props;
   const dispatch = useAppDispatch();
+
   const removeTask = () => {
-    dispatch(removeTaskAC({ todolistId, taskId: task.id }));
+    dispatch(removeTaskTC({ todolistId, taskId: task.id }));
   };
 
   const changeTaskTitle = (title: string) => {
-    dispatch(changeTaskTitleAC({ todolistId, taskId: task.id, title }));
+    dispatch(updateTaskTC({ task: { ...task, title } }));
   };
   const changeTaskStatus = (e: ChangeEvent<HTMLInputElement>) => {
-    dispatch(
-      changeTaskStatusAC({
-        todolistId,
-        taskId: task.id,
-        isDone: e.currentTarget.checked,
-      })
-    );
+    const status = e.currentTarget.checked ? TaskStatus.Done : TaskStatus.Active;
+    dispatch(updateTaskTC({ task: { ...task, status } }));
   };
-  return (
-    <ListItem disablePadding sx={getListItemSx(task.isDone)}>
-      <Box>
-        <Checkbox checked={task.isDone} onChange={changeTaskStatus} />
 
-        <EditableSpan onChange={changeTaskTitle} value={task.title} />
+  return (
+    <ListItem disablePadding sx={getListItemSx(task.status === TaskStatus.Done)}>
+      <Box>
+        <Checkbox
+          checked={task.status === TaskStatus.Done}
+          onChange={changeTaskStatus}
+          disabled={disabled}
+        />
+        <EditableSpan onChange={changeTaskTitle} value={task.title} disabled={disabled} />
       </Box>
-      <IconButton aria-label="delete" onClick={removeTask}>
+      <IconButton aria-label="delete" onClick={removeTask} disabled={disabled}>
         <DeleteIcon />
       </IconButton>
     </ListItem>
   );
 }
-//const {} = props;
-export type TaskType = {
-  id: string;
-  title: string;
-  isDone: boolean;
-};
-export type TaskStateType = { [key: string]: TaskType[] };
+type Props = { task: DomainTask; todolistId: string; disabled?: boolean };

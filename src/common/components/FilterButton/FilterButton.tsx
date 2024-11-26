@@ -1,27 +1,25 @@
 import { Button } from "@mui/material";
-import type { FilterValuesType } from "../../../features/todolists/ui/Todolists/Todolist/Todolist";
- 
+import type { FilterValuesType } from "common/types";
 
-type FilterButtonProps = {
-  title: string;
-  filter: FilterValuesType;
-  activeFilterValue: FilterValuesType;
-  onClickHandler: () => void;
-};
 export const FilterButton = ({
   title,
   filter,
   activeFilterValue,
   onClickHandler,
-}: FilterButtonProps) => {
+}: Props) => {
   return (
     <Button
       size="small"
       variant="contained"
       color={filter === activeFilterValue ? "secondary" : "primary"}
-      onClick={onClickHandler}
-    >
+      onClick={onClickHandler}>
       {title}
     </Button>
   );
+};
+type Props = {
+  title: string;
+  filter: FilterValuesType;
+  activeFilterValue: FilterValuesType;
+  onClickHandler: () => void;
 };

@@ -1,89 +1,154 @@
-import type { TaskStateType } from "../../ui/Todolists/Todolist/Tasks/Task/Task";
-import { tasksReducer, removeTaskAC, addTaskAC, changeTaskStatusAC, changeTaskTitleAC } from "../tasks-reducer";
-import { addTodolistAC, removeTodolistAC } from "../todolists-reducer";
- 
+import type { DomainTask } from "features/todolists/api/tasksApi.types";
+import { TaskPriority, TaskStatus } from "features/todolists/lib/enums";
+import {
+  type TasksState,
+  addTaskAC,
+  removeTaskAC,
+  tasksReducer,
+  updateTaskAC,
+} from "../tasks-reducer";
+import { removeTodolistAC } from "../todolists-reducer";
 
 let todolistId1: string;
 let todolistId2: string;
 let taskId1: string;
-let startState: TaskStateType;
+let startState: TasksState;
 beforeEach(() => {
   todolistId1 = "todolist1";
   todolistId2 = "todolist2";
   taskId1 = "id1";
   startState = {
     todolist1: [
-      { id: "id1", title: "HTML&CSS", isDone: true },
-      { id: "id2", title: "JS", isDone: true },
-      { id: "id3", title: "ReactJS", isDone: false },
+      {
+        description: "",
+        title: "task1",
+        status: TaskStatus.Active,
+        priority: TaskPriority.High,
+        startDate: "",
+        deadline: "",
+        id: "id1",
+        todoListId: "todolist1",
+        order: 0,
+        addedDate: "bla",
+      },
+      {
+        description: "",
+        title: "task2",
+        status: TaskStatus.Active,
+        priority: TaskPriority.High,
+        startDate: "",
+        deadline: "",
+        id: "id2",
+        todoListId: "todolist1",
+        order: 0,
+        addedDate: "bla",
+      },
     ],
     todolist2: [
-      { id: "id1", title: "Beer", isDone: true },
-      { id: "id2", title: "Cheeps", isDone: true },
-      { id: "id3", title: "Milk", isDone: false },
+      {
+        description: "",
+        title: "task3",
+        status: TaskStatus.Active,
+        priority: TaskPriority.High,
+        startDate: "",
+        deadline: "",
+        id: "id3",
+        todoListId: "todolist2",
+        order: 0,
+        addedDate: "bla",
+      },
+      {
+        description: "",
+        title: "task3",
+        status: TaskStatus.Active,
+        priority: TaskPriority.High,
+        startDate: "",
+        deadline: "",
+        id: "id3",
+        todoListId: "todolist2",
+        order: 0,
+        addedDate: "bla",
+      },
     ],
   };
 });
 test("Remove Task", () => {
-  const endState: TaskStateType = tasksReducer(
+  const endState: TasksState = tasksReducer(
     startState,
     removeTaskAC({ todolistId: todolistId1, taskId: taskId1 })
   );
-  expect(endState[todolistId1].length).toBe(2);
-  expect(endState[todolistId2].length).toBe(3);
-  expect(
-    endState[todolistId1].every((task) => task.id !== taskId1)
-  ).toBeTruthy();
+  expect(endState[todolistId1].length).toBe(1);
+  expect(endState[todolistId2].length).toBe(2);
+  expect(endState[todolistId1].every(task => task.id !== taskId1)).toBeTruthy();
 });
 test("Add Task", () => {
-  const endState: TaskStateType = tasksReducer(
-    startState,
-    addTaskAC({ todolistId: todolistId1, title: "newTask" })
-  );
-  expect(endState[todolistId1].length).toBe(4);
-  expect(endState[todolistId2].length).toBe(3);
-  expect(endState[todolistId1][3].title).toBe("newTask");
+  const newTask: DomainTask = {
+    description: "",
+    title: "newTask",
+    status: TaskStatus.Active,
+    priority: TaskPriority.High,
+    startDate: "",
+    deadline: "",
+    id: "id1",
+    todoListId: "todolist1",
+    order: 0,
+    addedDate: "bla",
+  };
+  const endState: TasksState = tasksReducer(startState, addTaskAC({ task: newTask }));
+  expect(endState[todolistId1].length).toBe(3);
+  expect(endState[todolistId2].length).toBe(2);
+  expect(endState[todolistId1][0].title).toBe("newTask");
 });
 test("Change status Task", () => {
-  const endState: TaskStateType = tasksReducer(
+  const newTask: DomainTask = {
+    description: "",
+    title: "newTask",
+    status: TaskStatus.Done,
+    priority: TaskPriority.High,
+    startDate: "",
+    deadline: "",
+    id: "id1",
+    todoListId: "todolist1",
+    order: 0,
+    addedDate: "bla",
+  };
+  const endState: TasksState = tasksReducer(
     startState,
-    changeTaskStatusAC({
-      todolistId: todolistId1,
-      taskId: "id1",
-      isDone: false,
+    updateTaskAC({
+      task: newTask,
     })
   );
-  expect(endState[todolistId1].length).toBe(3);
-  expect(endState[todolistId1][0].isDone).toBe(false);
-  expect(endState[todolistId2][0].isDone).toBe(true);
+  expect(endState[todolistId1].length).toBe(2);
+  expect(endState[todolistId1][0].status).toBe(TaskStatus.Done);
+  expect(endState[todolistId2][0].status).toBe(TaskStatus.Active);
 });
 test("Change title Task", () => {
-  const endState: TaskStateType = tasksReducer(
+  const newTask: DomainTask = {
+    description: "",
+    title: "newTask",
+    status: TaskStatus.Active,
+    priority: TaskPriority.High,
+    startDate: "",
+    deadline: "",
+    id: "id1",
+    todoListId: "todolist1",
+    order: 0,
+    addedDate: "bla",
+  };
+  const endState: TasksState = tasksReducer(
     startState,
-    changeTaskTitleAC({
-      todolistId: todolistId1,
-      taskId: "id1",
-      title: "newTitle",
+    updateTaskAC({
+      task: newTask,
     })
   );
-  expect(endState[todolistId1].length).toBe(3);
-  expect(endState[todolistId1][0].title).toBe("newTitle");
-  expect(endState[todolistId2][0].title).toBe("Beer");
+  expect(endState[todolistId1].length).toBe(2);
+  expect(endState[todolistId1][0].title).toBe("newTask");
+  expect(endState[todolistId2][0].title).toBe("task3");
 });
-test("Add Task after Add Todolist", () => {
-  const action = addTodolistAC({ title: "without title" });
-  const endState: TaskStateType = tasksReducer(startState, action);
-  const keys = Object.keys(endState);
-  const newKey = keys.find((key) => key !== todolistId1 && key !== todolistId2);
-  if (!newKey) {
-    throw Error("error");
-  }
-  expect(keys.length).toBe(3);
-  expect(endState[newKey]).toEqual([]);
-});
+
 test("Remove tasks after remove todolist", () => {
-  const action = removeTodolistAC({ id: todolistId2 });
-  const endState: TaskStateType = tasksReducer(startState, action);
+  const action = removeTodolistAC({ todolistId: todolistId2 });
+  const endState: TasksState = tasksReducer(startState, action);
   const keys = Object.keys(endState);
 
   expect(keys.length).toBe(1);

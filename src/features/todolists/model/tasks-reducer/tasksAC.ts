@@ -1,35 +1,23 @@
-export const removeTaskAC = (payload: {
-  todolistId: string;
-  taskId: string;
-}) => {
+import type { DomainTask } from "features/todolists/api/tasksApi.types";
+
+export const removeTaskAC = (payload: { todolistId: string; taskId: string }) => {
   return {
     type: "REMOVE_TASK",
     payload,
   } as const;
 };
-export const addTaskAC = (payload: { todolistId: string; title: string }) => {
+export const addTaskAC = (payload: { task: DomainTask }) => {
   return {
     type: "ADD_TASK",
     payload,
   } as const;
 };
-export const changeTaskStatusAC = (payload: {
-  todolistId: string;
-  taskId: string;
-  isDone: boolean;
-}) => {
+export const updateTaskAC = (payload: { task: DomainTask }) => {
   return {
-    type: "CHANGE_STATUS_TASK",
+    type: "UPDATE_TASK",
     payload,
   } as const;
 };
-export const changeTaskTitleAC = (payload: {
-  todolistId: string;
-  taskId: string;
-  title: string;
-}) => {
-  return {
-    type: "CHANGE_TITLE_TASK",
-    payload,
-  } as const;
+export const setTasksAC = (payload: { todolistId: string; tasks: DomainTask[] }) => {
+  return { type: "SET-TASKS", payload } as const;
 };

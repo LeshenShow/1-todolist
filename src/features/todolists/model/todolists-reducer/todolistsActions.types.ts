@@ -1,23 +1,26 @@
 import {
   addTodolistAC,
-  changeTodolistFilterAC,
-  changeTodolistTitleAC,
   removeTodolistAC,
+  updateTodolistFilterAC,
+  type changeDisabledAC,
+  type setTodolistsAC,
+  type updateTodolistTitleAC,
 } from "./index";
 
 export type RemoveTodolistAction = ReturnType<typeof removeTodolistAC>;
 export type AddTodolistAction = ReturnType<typeof addTodolistAC>;
-export type ChangeTodolistTitleAction = ReturnType<
-  typeof changeTodolistTitleAC
->;
-export type ChangeTodolistFilterAction = ReturnType<
-  typeof changeTodolistFilterAC
->;
+export type UpdateTodolistTitleAction = ReturnType<typeof updateTodolistTitleAC>;
+export type UpdateTodolistFilterAction = ReturnType<typeof updateTodolistFilterAC>;
+export type SetTodolistsAction = ReturnType<typeof setTodolistsAC>;
+export type ChangeDisabledAction = ReturnType<typeof changeDisabledAC>;
+
 export type Actions =
   | RemoveTodolistAction
   | AddTodolistAction
-  | ChangeTodolistTitleAction
-  | ChangeTodolistFilterAction;
+  | UpdateTodolistTitleAction
+  | UpdateTodolistFilterAction
+  | SetTodolistsAction
+  | ChangeDisabledAction;
 // export type RemoveTodolistAction = {
 //   type: "REMOVE_TODOLIST";
 //   payload: {

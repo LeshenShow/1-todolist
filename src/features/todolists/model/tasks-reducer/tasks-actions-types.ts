@@ -1,22 +1,18 @@
 import { AddTodolistAction, RemoveTodolistAction } from "../todolists-reducer";
-import {
-  addTaskAC,
-  changeTaskStatusAC,
-  changeTaskTitleAC,
-  removeTaskAC,
-} from "./index";
+import { addTaskAC, removeTaskAC, type setTasksAC, type updateTaskAC } from "./index";
 
 export type RemoveTaskAction = ReturnType<typeof removeTaskAC>;
 export type AddTaskAction = ReturnType<typeof addTaskAC>;
-export type ChangeStatusTaskAction = ReturnType<typeof changeTaskStatusAC>;
-export type ChangeTitleTaskAction = ReturnType<typeof changeTaskTitleAC>;
+export type SetTasksAction = ReturnType<typeof setTasksAC>;
+export type UpdateTaskAction = ReturnType<typeof updateTaskAC>;
 export type Actions =
   | RemoveTaskAction
   | AddTaskAction
-  | ChangeStatusTaskAction
-  | ChangeTitleTaskAction
   | AddTodolistAction
-  | RemoveTodolistAction;
+  | RemoveTodolistAction
+  | SetTasksAction
+  | UpdateTaskAction;
+
 // export type RemoveTaskAction = {
 //   type: "REMOVE_TASK";
 //   payload: {

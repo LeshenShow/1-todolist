@@ -1,15 +1,14 @@
 import { Container, Grid2 } from "@mui/material";
-import { AddItemForm } from "../common/components/AddItemForm/AddItemForm";
-import { useAppDispatch } from "../common/hooks/useAddDispatch";
-
-import { addTodolistAC } from "../features/todolists/model/todolists-reducer";
-import { Todolists } from "../features/todolists/ui/Todolists/Todolists";
+import { AddItemForm } from "common/components";
+import { useAppDispatch } from "common/hooks";
+import { addTodolistTC } from "features/todolists/model/todolists-reducer";
+import { Todolists } from "features/todolists/ui/Todolists/Todolists";
 
 export function Main() {
   const dispatch = useAppDispatch();
 
   const addTodolist = (title: string) => {
-    dispatch(addTodolistAC({ title }));
+    dispatch(addTodolistTC({ title }));
   };
 
   return (
