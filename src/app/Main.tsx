@@ -1,12 +1,24 @@
 import { Container, Grid2 } from "@mui/material";
 import { AddItemForm } from "common/components";
-import { useAppDispatch } from "common/hooks";
+import { useAppDispatch, useAppSelector } from "common/hooks";
+import { Path } from "common/router";
 import { addTodolistTC } from "features/todolists/model/todolists-reducer";
 import { Todolists } from "features/todolists/ui/Todolists/Todolists";
+import { Navigate, useNavigate } from "react-router-dom";
+import { selectIsLoggedIn } from "./appSelectors";
 
 export function Main() {
   const dispatch = useAppDispatch();
-
+  const navigate = useNavigate();
+  const isLoggedIn = useAppSelector(selectIsLoggedIn);
+  // useEffect(() => {
+  //   if (!isLoggedIn) {
+  //     navigate(Path.Login);
+  //   }
+  // }, [isLoggedIn]);
+  if (!isLoggedIn) {
+    return <Navigate to={Path.Login} />;
+  }
   const addTodolist = (title: string) => {
     dispatch(addTodolistTC({ title }));
   };
@@ -19,8 +31,6 @@ export function Main() {
       <Grid2 container spacing={4}>
         <Todolists />
       </Grid2>
-
-      <div></div>
     </Container>
   );
 }

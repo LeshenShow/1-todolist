@@ -5,3 +5,5 @@ export const selectAppStatus = (state: RootState) => state.app.status;
 export const selectError = (state: RootState) => state.app.error;
 export const selectTasks = (state: RootState) => state.tasks;
 export const selectTodolists = (state: RootState) => state.todolists;
+export const selectIsLoggedIn = (state: RootState) => state.auth.isLoggedIn;
+export const selectIsInitialized = (state: RootState) => state.auth.isInitialized;
