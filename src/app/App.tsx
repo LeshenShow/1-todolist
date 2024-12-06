@@ -1,13 +1,13 @@
 import { Box, CircularProgress, CssBaseline, ThemeProvider } from "@mui/material";
 import { ErrorSnackbar } from "common/components";
 import { useAppDispatch } from "common/hooks";
-import { initializeAppTC } from "features/auth/model/auth-reducer";
+import { initializeAppTC, selectIsInitialized } from "features/auth/model/authSlice";
 import { useEffect } from "react";
 import { Outlet } from "react-router-dom";
 import { Header } from "../common/components/Header/Header";
 import { useAppSelector } from "../common/hooks/useAppSelector";
 import { getTheme } from "../common/theme/theme";
-import { selectIsInitialized, selectThemeMode } from "./appSelectors";
+import { selectThemeMode } from "./appSlice";
 
 export function App() {
   const themeMode = useAppSelector(selectThemeMode);

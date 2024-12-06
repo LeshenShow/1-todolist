@@ -3,14 +3,14 @@ import { FilterButton } from "common/components";
 import { useAppDispatch } from "common/hooks";
 import type { FilterValuesType } from "common/types";
 import type { DomainTodolist } from "features/todolists/api/todolistsApi.types";
-import { updateTodolistFilterAC } from "features/todolists/model/todolists-reducer";
+import { updateTodolistFilter } from "features/todolists/model/todolistsSlice";
 import { filterButtonsContainerSx } from "./FilterTasksButtons.style";
 
 export function FilterTasksButtons(props: Props) {
   const { todolist } = props;
   const dispatch = useAppDispatch();
   const changeTodolistFilter = (filter: FilterValuesType) => {
-    dispatch(updateTodolistFilterAC({ id: todolist.id, filter }));
+    dispatch(updateTodolistFilter({ id: todolist.id, filter }));
   };
   return (
     <Box sx={filterButtonsContainerSx}>

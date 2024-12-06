@@ -4,10 +4,7 @@ import { EditableSpan } from "common/components/EditableSpan";
 import { useAppDispatch } from "common/hooks/useAddDispatch";
 import type { DomainTask } from "features/todolists/api/tasksApi.types";
 import { TaskStatus } from "features/todolists/lib/enums";
-import {
-  removeTaskTC,
-  updateTaskTC,
-} from "features/todolists/model/tasks-reducer/tasks-reducer";
+import { removeTaskTC, updateTaskTC } from "features/todolists/model/tasksSlice";
 import { ChangeEvent } from "react";
 import { getListItemSx } from "./Task.style";
 

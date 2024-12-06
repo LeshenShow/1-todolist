@@ -1,8 +1,10 @@
 import { Grid2, Paper } from "@mui/material";
 import { useAppDispatch } from "common/hooks";
-import { fetchTodolistsTC } from "features/todolists/model/todolists-reducer/todolists-reducer";
+import {
+  fetchTodolistsTC,
+  selectTodolists,
+} from "features/todolists/model/todolistsSlice";
 import { useEffect } from "react";
-import { selectTodolists } from "../../../../app/appSelectors";
 import { useAppSelector } from "../../../../common/hooks/useAppSelector";
 import { Todolist } from "./Todolist/Todolist";
 

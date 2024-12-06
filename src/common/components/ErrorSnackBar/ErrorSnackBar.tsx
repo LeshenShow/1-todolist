@@ -1,7 +1,7 @@
 import Alert from "@mui/material/Alert";
 import Snackbar, { SnackbarCloseReason } from "@mui/material/Snackbar";
-import { setAppErrorAC } from "app/app-reducer";
-import { selectError } from "app/appSelectors";
+
+import { selectError, setAppError } from "app/appSlice";
 import { useAppDispatch, useAppSelector } from "common/hooks";
 
 export function ErrorSnackbar() {
@@ -17,7 +17,7 @@ export function ErrorSnackbar() {
       return;
     }
     // setOpen(false);
-    dispatch(setAppErrorAC(null));
+    dispatch(setAppError({ error: null }));
   };
 
   return (

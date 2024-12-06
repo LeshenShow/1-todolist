@@ -1,20 +1,17 @@
 import { List } from "@mui/material";
-import { useAppDispatch } from "common/hooks";
+import { useAppSelector } from "common/hooks";
 import type { DomainTodolist } from "features/todolists/api/todolistsApi.types";
 import { TaskStatus } from "features/todolists/lib/enums";
-import { fetchTasksTC } from "features/todolists/model/tasks-reducer/tasks-reducer";
-import { useEffect } from "react";
-import { selectTasks } from "../../../../../../app/appSelectors";
-import { useAppSelector } from "../../../../../../common/hooks/useAppSelector";
+import { selectTasks, type TasksState } from "features/todolists/model";
 import { Task } from "./Task/Task";
 
 export function Tasks(props: Props) {
   const { todolist } = props;
-  const tasks = useAppSelector(selectTasks);
-  const dispatch = useAppDispatch();
-  useEffect(() => {
-    dispatch(fetchTasksTC(todolist.id));
-  }, []);
+  const tasks: TasksState = useAppSelector(selectTasks);
+  // const dispatch = useAppDispatch();
+  // useEffect(() => {
+  //   dispatch(fetchTasksTC(todolist.id));
+  // }, []);
   const allTodolistTasks = tasks[todolist.id];
   let filteredTasks = allTodolistTasks;
   if (todolist.filter === "active") {

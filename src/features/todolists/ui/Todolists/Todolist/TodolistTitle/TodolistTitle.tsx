@@ -6,7 +6,7 @@ import { useAppDispatch } from "../../../../../../common/hooks/useAddDispatch";
 import {
   removeTodolistTC,
   updateTodolistTitleTC,
-} from "../../../../model/todolists-reducer";
+} from "../../../../model/todolistsSlice";
 
 export function TodolistTitle(props: Props) {
   const { todolist } = props;

@@ -9,10 +9,11 @@ import TextField from "@mui/material/TextField";
 import { useAppDispatch, useAppSelector } from "common/hooks";
 import { Path } from "common/router";
 import { getTheme } from "common/theme";
-import { loginTC } from "features/auth/model/auth-reducer";
+import { loginTC, selectIsLoggedIn } from "features/auth/model/authSlice";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { Navigate } from "react-router-dom";
-import { selectIsLoggedIn, selectThemeMode } from "../../../../app/appSelectors";
+
+import { selectThemeMode } from "app/appSlice";
 import s from "./Login.module.css";
 export const Login = () => {
   const themeMode = useAppSelector(selectThemeMode);
@@ -89,7 +90,7 @@ export const Login = () => {
                   margin="normal"
                   {...register("password", {
                     required: { value: true, message: "Password field is required" },
-                    minLength: 1,
+                    minLength: 3,
                   })}
                 />
                 {errors.password && (

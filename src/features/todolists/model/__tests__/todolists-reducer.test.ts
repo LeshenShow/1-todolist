@@ -1,11 +1,11 @@
 import type { DomainTodolist } from "features/todolists/api/todolistsApi.types";
 import {
-  addTodolistAC,
-  removeTodolistAC,
+  addTodolist,
+  removeTodolist,
   todolistsReducer,
-  updateTodolistFilterAC,
-  updateTodolistTitleAC,
-} from "../todolists-reducer";
+  updateTodolistFilter,
+  updateTodolistTitle,
+} from "../todolistsSlice";
 let todolistId1: string;
 let todolistId2: string;
 let startState: DomainTodolist[];
@@ -14,18 +14,20 @@ beforeEach(() => {
   todolistId2 = "todolist2";
   startState = [
     {
-      id: "todolist1",
+      id: todolistId1,
       addedDate: "bla",
       order: 0,
-      title: "todolist1",
+      title: todolistId1,
       filter: "all",
+      entityStatus: "idle",
     },
     {
-      id: "todolist2",
+      id: todolistId2,
       addedDate: "bla",
       order: 0,
-      title: "todolist2",
+      title: todolistId2,
       filter: "all",
+      entityStatus: "idle",
     },
   ];
 });
@@ -33,7 +35,7 @@ beforeEach(() => {
 test("Remove Todolist", () => {
   const endState: DomainTodolist[] = todolistsReducer(
     startState,
-    removeTodolistAC({ todolistId: todolistId1 })
+    removeTodolist({ id: todolistId1 })
   );
   expect(endState.length).toBe(1);
   expect(endState[0].id).toBe(todolistId2);
@@ -45,10 +47,11 @@ test("Add new Todolist", () => {
     order: 0,
     title: "newTodolist",
     filter: "all",
+    entityStatus: "idle",
   };
   const endState: DomainTodolist[] = todolistsReducer(
     startState,
-    addTodolistAC({ todolist: newTodolist })
+    addTodolist({ todolist: newTodolist })
   );
   expect(endState.length).toBe(3);
   expect(endState[2].title).toBe("newTodolist");
@@ -56,7 +59,7 @@ test("Add new Todolist", () => {
 test("Change Todolist title", () => {
   const endState: DomainTodolist[] = todolistsReducer(
     startState,
-    updateTodolistTitleAC({ todolistId: todolistId1, title: "New Todolist" })
+    updateTodolistTitle({ id: todolistId1, title: "New Todolist" })
   );
   expect(endState[0].title).toBe("New Todolist");
   expect(endState[1].title).toBe("todolist2");
@@ -64,7 +67,7 @@ test("Change Todolist title", () => {
 test("Change Todolist filter", () => {
   const endState: DomainTodolist[] = todolistsReducer(
     startState,
-    updateTodolistFilterAC({ id: todolistId2, filter: "completed" })
+    updateTodolistFilter({ id: todolistId2, filter: "completed" })
   );
   expect(endState[0].filter).toBe("all");
   expect(endState[1].filter).toBe("completed");

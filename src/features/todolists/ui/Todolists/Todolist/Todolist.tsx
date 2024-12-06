@@ -1,5 +1,5 @@
 import type { DomainTodolist } from "features/todolists/api/todolistsApi.types";
-import { addTaskTC } from "features/todolists/model/tasks-reducer";
+import { addTaskTC } from "features/todolists/model/tasksSlice";
 import { AddItemForm } from "../../../../../common/components/AddItemForm/AddItemForm";
 import { useAppDispatch } from "../../../../../common/hooks/useAddDispatch";
 import { FilterTasksButtons } from "./FilterTasksButtons";

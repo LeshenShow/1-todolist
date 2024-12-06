@@ -1,4 +1,4 @@
-import type { RequestStatus } from "app/app-reducer";
+import type { RequestStatus } from "app/appSlice";
 import type { FilterValuesType } from "common/types";
 
 export type Todolist = {
