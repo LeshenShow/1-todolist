@@ -1,4 +1,6 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, isFulfilled, isPending, isRejected } from "@reduxjs/toolkit";
+import { taskApi } from "features/todolists/api";
+import { todolistsApi } from "features/todolists/api/todolistsApi";
 
 export const appSLice = createSlice({
   name: "app",
@@ -6,6 +8,7 @@ export const appSLice = createSlice({
     themeMode: "dark" as ThemeMode,
     status: "idle" as RequestStatus,
     error: null as Error,
+    isLoggedIn: false as boolean,
   },
   reducers: create => ({
     changeTheme: create.reducer<{ themeMode: ThemeMode }>((state, action) => {
@@ -17,17 +20,48 @@ export const appSLice = createSlice({
     setAppError: create.reducer<{ error: Error }>((state, action) => {
       state.error = action.payload.error;
     }),
+    setLoggedIn: create.reducer<{ isLoggedIn: boolean }>((state, action) => {
+      state.isLoggedIn = action.payload.isLoggedIn;
+    }),
   }),
+  extraReducers: builder => {
+    builder
+      .addMatcher(isPending, (state, action) => {
+        if (
+          todolistsApi.endpoints.getTodolists.matchPending(action) ||
+          taskApi.endpoints.getTasks.matchPending(action)
+        ) {
+          return;
+        }
+        state.status = "loading";
+      })
+      .addMatcher(
+        // action => action.type.endsWith("/fulfilled"),
+        isFulfilled,
+        (state, action) => {
+          state.status = "succeeded";
+        }
+      )
+      .addMatcher(
+        // action => action.type.endsWith("/rejected"),
+        isRejected,
+        (state, action) => {
+          state.status = "failed";
+        }
+      );
+  },
   selectors: {
     selectThemeMode: state => state.themeMode,
     selectAppStatus: state => state.status,
     selectError: state => state.error,
+    selectIsLoggedIn: state => state.isLoggedIn,
   },
 });
 
 export const appReducer = appSLice.reducer;
-export const { selectThemeMode, selectAppStatus, selectError } = appSLice.selectors;
-export const { changeTheme, setAppStatus, setAppError } = appSLice.actions;
+export const { selectThemeMode, selectAppStatus, selectError, selectIsLoggedIn } =
+  appSLice.selectors;
+export const { changeTheme, setAppStatus, setAppError, setLoggedIn } = appSLice.actions;
 export type AppReducerState = ReturnType<typeof appSLice.getInitialState>;
 export type ThemeMode = "light" | "dark";
 export type RequestStatus = "idle" | "loading" | "succeeded" | "failed";

@@ -1,93 +1,83 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { setAppStatus } from "app/appSlice";
-import type { AppThunk } from "app/store";
-import { handleServerAppError, handleServerNetworkError } from "common/utils";
-import { ResultCode } from "features/todolists/lib/enums";
-import { clearTasks } from "features/todolists/model";
-import { clearData } from "features/todolists/model/todolistsSlice";
-import { authApi } from "../api/authApi";
-import type { LoginArgs } from "../api/authApi.types";
-export const authSlice = createSlice({
-  name: "auth",
-  initialState: {
-    isLoggedIn: false,
-    isInitialized: false,
-  },
-  reducers: create => ({
-    setLoggedIn: create.reducer<{ isLoggedIn: boolean }>((state, action) => {
-      state.isLoggedIn = action.payload.isLoggedIn;
-    }),
-    setIsInitialized: create.reducer<{ isInitialized: boolean }>((state, action) => {
-      state.isInitialized = action.payload.isInitialized;
-    }),
-  }),
-  selectors: {
-    selectIsLoggedIn: state => state.isLoggedIn,
-    selectIsInitialized: state => state.isInitialized,
-  },
-});
-export const authReducer = authSlice.reducer;
-export const { setLoggedIn, setIsInitialized } = authSlice.actions;
-export const { selectIsInitialized, selectIsLoggedIn } = authSlice.selectors;
-
-export const initializeAppTC = (): AppThunk => dispatch => {
-  dispatch(setAppStatus({ status: "loading" }));
-  authApi
-    .me()
-    .then(res => {
-      if (res.data.resultCode === ResultCode.Success) {
-        dispatch(setAppStatus({ status: "succeeded" }));
-        dispatch(setLoggedIn({ isLoggedIn: true }));
-      } else {
-        handleServerAppError(res.data, dispatch);
-      }
-    })
-    .catch(error => {
-      handleServerNetworkError(error, dispatch);
-    })
-    .finally(() => {
-      dispatch(setIsInitialized({ isInitialized: true }));
-    });
-};
-export const loginTC =
-  (payload: { data: LoginArgs }): AppThunk =>
-  dispatch => {
-    dispatch(setAppStatus({ status: "loading" }));
-    authApi
-      .login(payload.data)
-      .then(res => {
-        if (res.data.resultCode === ResultCode.Success) {
-          localStorage.setItem("token", res.data.data.token);
-          dispatch(setAppStatus({ status: "succeeded" }));
-          dispatch(setLoggedIn({ isLoggedIn: true }));
-        } else {
-          handleServerAppError(res.data, dispatch);
-          dispatch(setLoggedIn({ isLoggedIn: false }));
-        }
-      })
-      .catch(e => {
-        handleServerNetworkError(e, dispatch);
-      });
-  };
-export const logoutTC = (): AppThunk => dispatch => {
-  dispatch(setAppStatus({ status: "loading" }));
-  authApi
-    .logout()
-    .then(res => {
-      if (res.data.resultCode === ResultCode.Success) {
-        dispatch(setAppStatus({ status: "succeeded" }));
-        dispatch(setLoggedIn({ isLoggedIn: false }));
-        dispatch(clearData());
-        dispatch(clearTasks());
-        localStorage.removeItem("token");
-      } else {
-        handleServerAppError(res.data, dispatch);
-      }
-    })
-    .catch(error => {
-      handleServerNetworkError(error, dispatch);
-    });
-};
+// export const authSlice = createSlice({
+//   name: "auth",
+//   initialState: {
+//     // isLoggedIn: false,
+//     // isInitialized: false,
+//   },
+// reducers: create => ({
+//   setLoggedIn: create.reducer<{ isLoggedIn: boolean }>((state, action) => {
+//     state.isLoggedIn = action.payload.isLoggedIn;
+//   }),
+// setIsInitialized: create.reducer<{ isInitialized: boolean }>((state, action) => {
+//   state.isInitialized = action.payload.isInitialized;
+// }),
+// }),
+//   selectors: {
+//     selectIsLoggedIn: state => state.isLoggedIn,
+//     // selectIsInitialized: state => state.isInitialized,
+//   },
+// });
+// export const authReducer = authSlice.reducer;
+// export const { setLoggedIn } = authSlice.actions;
+// export const { selectIsLoggedIn } = authSlice.selectors;
+// export const initializeAppTC = (): AppThunk => dispatch => {
+//   dispatch(setAppStatus({ status: "loading" }));
+//   _authApi
+//     .me()
+//     .then(res => {
+//       if (res.data.resultCode === ResultCode.Success) {
+//         dispatch(setAppStatus({ status: "succeeded" }));
+//         dispatch(setLoggedIn({ isLoggedIn: true }));
+//       } else {
+//         handleServerAppError(res.data, dispatch);
+//       }
+//     })
+//     .catch(error => {
+//       handleServerNetworkError(error, dispatch);
+//     })
+//     .finally(() => {
+//       // dispatch(setIsInitialized({ isInitialized: true }));
+//     });
+// };
+// export const loginTC =
+//   (payload: { data: LoginArgs }): AppThunk =>
+//   dispatch => {
+//     dispatch(setAppStatus({ status: "loading" }));
+//     _authApi
+//       .login(payload.data)
+//       .then(res => {
+//         if (res.data.resultCode === ResultCode.Success) {
+//           localStorage.setItem("token", res.data.data.token);
+//           dispatch(setAppStatus({ status: "succeeded" }));
+//           dispatch(setLoggedIn({ isLoggedIn: true }));
+//         } else {
+//           handleServerAppError(res.data, dispatch);
+//           dispatch(setLoggedIn({ isLoggedIn: false }));
+//         }
+//       })
+//       .catch(e => {
+//         handleServerNetworkError(e, dispatch);
+//       });
+//   };
+// export const logoutTC = (): AppThunk => dispatch => {
+//   dispatch(setAppStatus({ status: "loading" }));
+//   _authApi
+//     .logout()
+//     .then(res => {
+//       if (res.data.resultCode === ResultCode.Success) {
+//         dispatch(setAppStatus({ status: "succeeded" }));
+//         dispatch(setLoggedIn({ isLoggedIn: false }));
+//         dispatch(clearData());
+//         dispatch(clearTasks());
+//         localStorage.removeItem("token");
+//       } else {
+//         handleServerAppError(res.data, dispatch);
+//       }
+//     })
+//     .catch(error => {
+//       handleServerNetworkError(error, dispatch);
+//     });
+// };
 // const initialState = {
 //   isLoggedIn: false,
 //   isInitialized: false,
@@ -121,3 +111,4 @@ export const logoutTC = (): AppThunk => dispatch => {
 // type State = typeof initialState;
 // export type LoginAction = ReturnType<typeof loginAC>;
 // export type SetIsInitializedAC = ReturnType<typeof setIsInitializedAC>;
+export {};

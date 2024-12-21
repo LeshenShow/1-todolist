@@ -23,5 +23,5 @@
   "prettier.printWidth": 90,
   "prettier.experimentalTernaries": true,
   "prettier.bracketSameLine": true,
-  "prettier.arrowParens": "avoid"
+  "prettier.arrowParens": "always"
 }

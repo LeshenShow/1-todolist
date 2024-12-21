@@ -1,25 +1,41 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { authReducer, authSlice } from "features/auth/model/authSlice";
+import { setupListeners } from "@reduxjs/toolkit/query";
 import { type UnknownAction } from "redux";
 import { type ThunkAction, type ThunkDispatch } from "redux-thunk";
-import { tasksReducer, tasksSlice } from "../features/todolists/model/tasksSlice";
-import {
-  todolistsReducer,
-  todolistsSlice,
-} from "../features/todolists/model/todolistsSlice";
+// import { tasksReducer, tasksSlice } from "../features/todolists/model/tasksSlice";
+// import {
+//   todolistsReducer,
+//   todolistsSlice,
+// } from "../features/todolists/model/todolistsSlice";
 import { appReducer, appSLice } from "./appSlice";
+import { baseApi } from "./baseApi";
 export const store = configureStore({
   reducer: {
-    [tasksSlice.name]: tasksReducer,
-    [todolistsSlice.name]: todolistsReducer,
+    // [tasksSlice.name]: tasksReducer,
+    // [todolistsSlice.name]: todolistsReducer,
     [appSLice.name]: appReducer,
-    [authSlice.name]: authReducer,
+    // [authSlice.name]: authReducer,
+    [baseApi.reducerPath]: baseApi.reducer,
   },
+  middleware: getDefaultMiddleware => getDefaultMiddleware().concat(baseApi.middleware),
 });
+setupListeners(store.dispatch);
 // export type AppDispatch = typeof store.dispatch; // rtk
 export type AppDispatch = ThunkDispatch<RootState, unknown, UnknownAction>; // первый способ типизации
 export type RootState = ReturnType<typeof store.getState>;
 export type AppThunk = ThunkAction<void, RootState, unknown, UnknownAction>;
+
+
+
+
+
+
+
+
+
+
+
+
 
 // объединяя reducer-ы с помощью combineReducers,
 // мы задаём структуру нашего единственного объекта-состояния

@@ -1,32 +1,36 @@
 import { Container, Grid2 } from "@mui/material";
 import { AddItemForm } from "common/components";
-import { useAppDispatch, useAppSelector } from "common/hooks";
+import { useAppSelector } from "common/hooks";
 import { Path } from "common/router";
-import { selectIsLoggedIn } from "features/auth/model/authSlice";
-import { addTodolistTC } from "features/todolists/model/todolistsSlice";
+
+import { useCreateTodolistMutation } from "features/todolists/api/todolistsApi";
 import { Todolists } from "features/todolists/ui/Todolists/Todolists";
 import { Navigate } from "react-router-dom";
+import { selectIsLoggedIn } from "./appSlice";
 
 export function Main() {
-  const dispatch = useAppDispatch();
+  // const dispatch = useAppDispatch();
   // const navigate = useNavigate();
-  const isLoggedIn = useAppSelector(selectIsLoggedIn);
+
   // useEffect(() => {
   //   if (!isLoggedIn) {
   //     navigate(Path.Login);
   //   }
   // }, [isLoggedIn]);
+  const isLoggedIn = useAppSelector(selectIsLoggedIn);
+  const [createTodolist] = useCreateTodolistMutation();
+  // const [trigger, res] = useCreateTodolistMutation();
+  const createTodolistCB = (title: string) => {
+    createTodolist({ title });
+    // dispatch(addTodolistTC({ title }));
+  };
   if (!isLoggedIn) {
     return <Navigate to={Path.Login} />;
   }
-  const addTodolist = (title: string) => {
-    dispatch(addTodolistTC({ title }));
-  };
-
   return (
     <Container>
       <Grid2 container sx={{ p: "15px 0" }}>
-        <AddItemForm addItem={addTodolist} />
+        <AddItemForm addItem={createTodolistCB} />
       </Grid2>
       <Grid2 container spacing={4}>
         <Todolists />
@@ -34,3 +38,4 @@ export function Main() {
     </Container>
   );
 }
+

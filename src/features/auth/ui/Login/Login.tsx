@@ -6,20 +6,22 @@ import FormGroup from "@mui/material/FormGroup";
 import FormLabel from "@mui/material/FormLabel";
 import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
-import { useAppDispatch, useAppSelector } from "common/hooks";
+import { useAppSelector } from "common/hooks";
 import { Path } from "common/router";
 import { getTheme } from "common/theme";
-import { loginTC, selectIsLoggedIn } from "features/auth/model/authSlice";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { Navigate } from "react-router-dom";
 
-import { selectThemeMode } from "app/appSlice";
+import { selectIsLoggedIn, selectThemeMode } from "app/appSlice";
+import { useLoginMutation } from "features/auth/api/authApi";
+import type { LoginArgs } from "features/auth/api/authApi.types";
+import { ResultCode } from "features/todolists/lib/enums";
 import s from "./Login.module.css";
 export const Login = () => {
   const themeMode = useAppSelector(selectThemeMode);
-  const theme = getTheme(themeMode);
-  const dispatch = useAppDispatch();
+  // const dispatch = useAppDispatch();
   const isLoggedIn = useAppSelector(selectIsLoggedIn);
+  const [login, { error, isError }] = useLoginMutation();
   // const navigate = useNavigate();
   const {
     register,
@@ -27,12 +29,20 @@ export const Login = () => {
     reset,
     control,
     formState: { errors, touchedFields, isValid },
-  } = useForm<Inputs>({
+  } = useForm<LoginArgs>({
     defaultValues: { email: "", password: "", rememberMe: false },
   });
-  const onSubmit: SubmitHandler<Inputs> = data => {
-    dispatch(loginTC({ data }));
-    reset();
+  const onSubmit: SubmitHandler<LoginArgs> = data => {
+    // dispatch(loginTC({ data }));
+    login(data).then(res => {
+      if (res.data?.resultCode === ResultCode.Success) {
+        localStorage.setItem("token", res.data.data.token);
+        reset();
+      }
+    });
+    // .finally(() => {
+    //   reset();
+    // });
     // navigate(Path.Main);
     // console.log(data);
   };
@@ -49,7 +59,10 @@ export const Login = () => {
               <p>
                 To login get registered
                 <a
-                  style={{ color: theme.palette.primary.main, marginLeft: "5px" }}
+                  style={{
+                    color: getTheme(themeMode).palette.primary.main,
+                    marginLeft: "5px",
+                  }}
                   href={"https://social-network.samuraijs.com/"}
                   target={"_blank"}
                   rel="noreferrer">
@@ -124,10 +137,4 @@ export const Login = () => {
       </Grid>
     </>
   );
-};
-type Inputs = {
-  email: string;
-  password: string;
-  rememberMe: boolean;
-  captcha?: string;
 };

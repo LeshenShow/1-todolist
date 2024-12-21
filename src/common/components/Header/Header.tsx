@@ -1,9 +1,17 @@
 import MenuIcon from "@mui/icons-material/Menu";
 import { AppBar, Box, IconButton, LinearProgress, Switch, Toolbar } from "@mui/material";
 // import LinearProgress from "@mui/material/LinearProgress"; так лучше, чтобы не тянуть весь пакет
-import { logoutTC, selectIsLoggedIn } from "features/auth/model/authSlice";
 
-import { changeTheme, selectAppStatus, selectThemeMode } from "../../../app/appSlice";
+import { baseApi } from "app/baseApi";
+import { useLogoutMutation } from "features/auth/api/authApi";
+import { ResultCode } from "features/todolists/lib/enums";
+import {
+  changeTheme,
+  selectAppStatus,
+  selectIsLoggedIn,
+  selectThemeMode,
+  setLoggedIn,
+} from "../../../app/appSlice";
 import { useAppDispatch } from "../../hooks/useAddDispatch";
 import { useAppSelector } from "../../hooks/useAppSelector";
 import { MenuButton } from "../MenuButton/MenuButton";
@@ -15,9 +23,23 @@ export function Header() {
   const changeThemeMode = () => {
     dispatch(changeTheme({ themeMode: themeMode === "dark" ? "light" : "dark" }));
   };
+  const [logout] = useLogoutMutation();
   const isLoggedIn = useAppSelector(selectIsLoggedIn);
-  const logout = () => {
-    dispatch(logoutTC());
+  const logoutCB = () => {
+    logout()
+      .then(res => {
+        if (res.data?.resultCode === ResultCode.Success) {
+          dispatch(setLoggedIn({ isLoggedIn: false }));
+          localStorage.removeItem("token");
+          // dispatch(baseApi.util.resetApiState());
+          // dispatch(clearData());
+          // dispatch(clearTasks());
+        }
+      })
+      .then(() => {
+        dispatch(baseApi.util.invalidateTags(["Todolist", 'Task']));
+      });
+    // dispatch(logoutTC());
   };
   return (
     <AppBar position="static">
@@ -28,7 +50,7 @@ export function Header() {
 
         <Box>
           {isLoggedIn && (
-            <MenuButton color="inherit" variant="outlined" onClick={logout}>
+            <MenuButton color="inherit" variant="outlined" onClick={logoutCB}>
               Logout
             </MenuButton>
           )}

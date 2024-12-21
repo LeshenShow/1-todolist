@@ -1,22 +1,33 @@
 import { Box, CircularProgress, CssBaseline, ThemeProvider } from "@mui/material";
 import { ErrorSnackbar } from "common/components";
 import { useAppDispatch } from "common/hooks";
-import { initializeAppTC, selectIsInitialized } from "features/auth/model/authSlice";
-import { useEffect } from "react";
+import { useMeQuery } from "features/auth/api/authApi";
+import { ResultCode } from "features/todolists/lib/enums";
+import { useEffect, useState } from "react";
 import { Outlet } from "react-router-dom";
 import { Header } from "../common/components/Header/Header";
 import { useAppSelector } from "../common/hooks/useAppSelector";
 import { getTheme } from "../common/theme/theme";
-import { selectThemeMode } from "./appSlice";
+import { selectThemeMode, setLoggedIn } from "./appSlice";
 
 export function App() {
   const themeMode = useAppSelector(selectThemeMode);
-  const theme = getTheme(themeMode);
   const dispatch = useAppDispatch();
-  const isInitialized = useAppSelector(selectIsInitialized);
+  // const isInitialized = useAppSelector(selectIsInitialized);
+  // useEffect(() => {
+  //   dispatch(initializeAppTC());
+  // }, []);
+  const { data, isLoading } = useMeQuery();
+  const [isInitialized, setIsInitialized] = useState(false);
   useEffect(() => {
-    dispatch(initializeAppTC());
-  }, []);
+    if (!isLoading) {
+      setIsInitialized(true);
+      if (data?.resultCode === ResultCode.Success) {
+        dispatch(setLoggedIn({ isLoggedIn: true }));
+      }
+    }
+  }, [isLoading, data]);
+
   if (!isInitialized) {
     return (
       <Box position={"fixed"} top={"30%"} textAlign={"center"} width={"100%"}>
@@ -26,7 +37,7 @@ export function App() {
   }
   return (
     <div className="App">
-      <ThemeProvider theme={theme}>
+      <ThemeProvider theme={getTheme(themeMode)}>
         <CssBaseline />
         <Header />
         <Outlet />
